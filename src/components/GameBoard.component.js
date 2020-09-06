@@ -1,4 +1,5 @@
 import {Component} from '../../lib/vues6.js'
+import {GridCellState} from '../module/util.js'
 
 /*
  * This is the HTML/JavaScript for the game board component.
@@ -15,10 +16,19 @@ import {Component} from '../../lib/vues6.js'
  *
  * We can also use components w/in components, to keep code clean. For example, we could have
  * a battleship component that we reference inside this game board component.
+ *
+ * Battleship grid is 14x14.
  */
 const template  = `
-<div>
-    <p>The game board will go here. {{ greeting }}</p>
+<div class="game-board-component" v-if="ready">
+    <div class="grid-container">
+        <div class="grid-row" v-for="row of rows">
+            <app-game-cell
+                v-for="cell of row"
+                v-bind:render="cell.render"
+            ></app-game-cell>
+        </div>
+    </div>
 </div>
 `
 export default class GameBoardComponent extends Component {
@@ -26,9 +36,42 @@ export default class GameBoardComponent extends Component {
     static get template() { return template }
     static get props() { return [] }
 
-    greeting = 'Hello, world.'
+    /**
+     * If true, the grid is ready to be rendered. If false,
+     * the grid will be hidden.
+     * @type {boolean}
+     */
+    ready = false
+
+    /**
+     * Array of grid rows. Each element in this array is itself
+     * an array of grid cell values.
+     * @type {Array<Array<*>>}
+     */
+    rows = []
+
+    /**
+     * The number of rows in the grid.
+     * @type {number}
+     */
+    n_rows = 14
+
+    /**
+     * The number of columns in a row.
+     * @type {number}
+     */
+    n_cols = 14
 
     async vue_on_create() {
-        console.log('The game board has been created!')
+        // Generate the data structure for the grid
+        this.rows = Array(this.n_rows).fill('').map(_ => {
+            return Array(this.n_cols).fill('').map(_ => {
+                return {
+                    render: GridCellState.Available,
+                }
+            })
+        })
+
+        this.ready = true
     }
 }

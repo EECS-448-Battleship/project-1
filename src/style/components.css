@@ -1,0 +1,27 @@
+.game-board-component .grid-container .grid-row {
+    display: flex;
+}
+
+/* Styles for the various grid cell states. */
+
+.game-board-cell-component {
+    width: 40px;
+    height: 40px;
+    border: 1px solid grey;
+}
+
+.game-board-cell-component.available {
+    background: #eeeeee;
+}
+
+.game-board-cell-component.available:hover {
+    background: #cccccc;
+}
+
+.game-board-cell-component.disabled {
+    background: #cccccc;
+}
+
+.game-board-cell-component.disabled:hover {
+    background: #bbbbbb;
+}
