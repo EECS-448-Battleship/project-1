@@ -54,13 +54,13 @@ export default class GameBoardComponent extends Component {
      * The number of rows in the grid.
      * @type {number}
      */
-    n_rows = 14
+    n_rows = 9
 
     /**
      * The number of columns in a row.
      * @type {number}
      */
-    n_cols = 14
+    n_cols = 9
 
     async vue_on_create() {
         // Generate the data structure for the grid
