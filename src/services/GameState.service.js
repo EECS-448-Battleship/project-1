@@ -1,11 +1,5 @@
 import { Player, GridCellState, GameState, clone } from '../module/util.js'
 
-// Export a single instance, so it can be shared by all files
-// To use the game state service, you should do:
-// import game_service from './services/GameState.service.js'
-const game_service = new GameStateService()
-export default game_service
-
 /**
  * Singleton service for managing the state of the game.
  */
@@ -145,3 +139,9 @@ export class GameStateService {
         })
     }
 }
+
+// Export a single instance, so it can be shared by all files
+// To use the game state service, you should do:
+// import game_service from './services/GameState.service.js'
+const game_service = new GameStateService()
+export default game_service
