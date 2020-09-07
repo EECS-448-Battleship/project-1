@@ -51,3 +51,23 @@ export const GameState = {
     // A player has won
     PlayerVictory: 'player_victory',
 }
+
+/**
+ * Makes a deep copy of the value passed in.
+ * @param {*} obj
+ * @return {*}
+ */
+export function clone(obj) {
+    // If it's just a value, return it.
+    if ( typeof obj !== 'object' || obj === null ) return obj
+
+    // If it's an array, copy its values.
+    if ( Array.isArray(obj) ) return obj.map(x => clone(x))
+
+    // If it's an object, copy its properties.
+    const copy = {}
+    for ( const prop in obj ) {
+        copy[prop] = clone(obj[prop])
+    }
+    return copy
+}
