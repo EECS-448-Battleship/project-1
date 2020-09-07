@@ -1,5 +1,5 @@
 import {Component} from '../../lib/vues6.js'
-import {GridCellState} from '../module/util.js'
+import game_service from '../services/GameState.service.js'
 
 /*
  * This is the HTML/JavaScript for the game board component.
@@ -50,28 +50,8 @@ export default class GameBoardComponent extends Component {
      */
     rows = []
 
-    /**
-     * The number of rows in the grid.
-     * @type {number}
-     */
-    n_rows = 9
-
-    /**
-     * The number of columns in a row.
-     * @type {number}
-     */
-    n_cols = 9
-
     async vue_on_create() {
-        // Generate the data structure for the grid
-        this.rows = Array(this.n_rows).fill('').map(_ => {
-            return Array(this.n_cols).fill('').map(_ => {
-                return {
-                    render: GridCellState.Available,
-                }
-            })
-        })
-
+        this.rows = game_service.get_current_player_state()
         this.ready = true
     }
 }
