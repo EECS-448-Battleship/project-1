@@ -138,6 +138,30 @@ export class GameStateService {
             })
         })
     }
+
+    /**
+     * get the "score" (the number of hits) that the 
+     * current player has (counting sunk ships)
+     * @return {number}
+     * @private 
+     */
+    get_player_score () {
+        let i = 1;
+        let j = 1;
+        let score = 0;
+        for(i; i<=9; i++)
+        {
+            for(j; j<=9; j++)
+            {
+                let cell = this.player_x_game_board[this.current_opponent][i][j];
+                if(cell.render === GridCellState.Damaged || cell.render === GridCellState.Sunk )
+                {
+                    score++;
+                }
+            }
+        }
+        return(score);
+    }
 }
 
 // Export a single instance, so it can be shared by all files
