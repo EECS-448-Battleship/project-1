@@ -25,3 +25,19 @@
 .game-board-cell-component.disabled:hover {
     background: #bbbbbb;
 }
+
+.game-board-cell-component.ship {
+    background: #414141;
+}
+
+.game-board-cell-component.damaged {
+    background: #dd0000;
+}
+
+.game-board-cell-component.sunk {
+    background: #000000;
+}
+
+.game-board-cell-component.missed {
+    background: #eeeeee;
+}

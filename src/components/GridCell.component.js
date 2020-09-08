@@ -4,7 +4,9 @@ import {GridCellState} from '../module/util.js'
 const template = `
 <div
     class="game-board-cell-component"
-    v-bind:class="{ disabled: render === GridCellState.Disabled, available: render === GridCellState.Available }"
+    v-bind:class="{ disabled: render === GridCellState.Disabled, available: render === GridCellState.Available,
+    ship: render == GridCellState.Ship, damaged: render == GridCellState.Damaged, sunk: render == GridCellState.Sunk,
+    missed: render == GridCellState.Missed }"
 >
 
 </div>
