@@ -36,6 +36,18 @@ export function isShipCell(grid_cell_state) {
 }
 
 /**
+ * Returns true if the given grid cell state can be fired upon.
+ * @param {GridCellState} grid_cell_state
+ * @return {boolean}
+ */
+export function isValidTargetCell(grid_cell_state) {
+    return [
+        GridCellState.Ship,
+        GridCellState.Available,
+    ].includes(grid_cell_state)
+}
+
+/**
  * Enum of all possible players.
  * @type {object}
  */
