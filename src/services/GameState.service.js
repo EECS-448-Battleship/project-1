@@ -1,5 +1,5 @@
-import { Player, GridCellState, GameState, clone, ShipType, isShipType, isShipCell } from '../module/util.js'
-import { InvalidShipPlacementError, InvalidAdvanceStateError } from '../module/errors.js'
+import { Player, GridCellState, GameState, clone, ShipType, isShipType, isShipCell, isValidTargetCell } from '../module/util.js'
+import { InvalidShipPlacementError, InvalidAdvanceStateError, InvalidMissileFireAttemptError } from '../module/errors.js'
 
 /**
  * Singleton service for managing the state of the game.
@@ -262,6 +262,60 @@ export class GameStateService {
     }
 
     /**
+     * Attempt to fire a missile at the current opponent at the given coordinates.
+     * The coordinates should be an array of [row_index, column_index] where the missile should fire.
+     * Returns true if the missile hit an undamaged cell of a ship.
+     *
+     * @example
+     * If I want to fire a missile at row 5 column 7, then:
+     * game_service.attempt_missile_fire([5, 7])
+     *
+     * @param {[number, number]} coords
+     * @return {boolean}
+     */
+    attempt_missile_fire([target_row_i, target_col_i]) {
+        const target_cell = this._get_cell_state(this.current_opponent, target_row_i, target_col_i)
+        if ( !isValidTargetCell(target_cell.render) )
+            throw new InvalidMissileFireAttemptError('Cannot fire on cell with state: ' + target_cell.render)
+
+        if ( target_cell.render === GridCellState.Ship ) {
+            // We hit an un-hit ship cell!
+            this._set_cell_state(this.current_opponent, target_row_i, target_col_i, GridCellState.Damaged)
+
+            // set ships to sunk where appropriate
+            this._sink_damaged_ships(this.current_opponent)
+            return true
+        } else if ( target_cell.render === GridCellState.Available ) {
+            // We missed...
+            this._set_cell_state(this.current_opponent, target_row_i, target_col_i, GridCellState.Missed)
+        }
+
+        return false
+    }
+
+    /**
+     * Checks the player's ships. If any are fully damaged, it flags that ship's cells
+     * as "sunk" rather than damaged.
+     * @param {Player} player
+     * @private
+     */
+    _sink_damaged_ships(player) {
+        this.get_ship_entities(player).some(ship => {
+            const covered_cells = this.get_covered_cells(ship.coords_one, ship.coords_two)
+            const all_damaged = covered_cells.every(([cell_row, cell_col]) => {
+                return this._get_cell_state(player, cell_row, cell_col).render === GridCellState.Damaged
+            })
+
+            if ( all_damaged ) {
+                // The entire boat was damaged, so sink it
+                covered_cells.some(([cell_row, cell_col]) => {
+                    this._set_cell_state(player, cell_row, cell_col, GridCellState.Sunk)
+                })
+            }
+        })
+    }
+
+    /**
      * Attempt to place a ship of the given type at the given coordinates.
      * Throws an InvalidShipPlacementError if the coordinates are invalid.
      * Coordinates should be [row_index, column_index] of either end of the ship.
@@ -453,6 +507,18 @@ export class GameStateService {
      */
     _set_cell_state(player, row_i, col_i, state) {
         this.player_x_game_board[player][row_i][col_i].render = state
+    }
+
+    /**
+     * Get the state of the cell at the given coordinates on the player's board.
+     * @param {Player} player
+     * @param {number} row_i
+     * @param {number} col_i
+     * @return {object}
+     * @private
+     */
+    _get_cell_state(player, row_i, col_i) {
+        return this.player_x_game_board[player][row_i][col_i]
     }
 }
 
