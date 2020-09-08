@@ -243,6 +243,34 @@ export class GameStateService {
          * 8) player win
          * 
          */
+        //1
+        if(this.current_state === GameState.ChoosingNumberOfShips)
+        {
+            if(this.n_boats >= 1 && this.n_boats <= 5 )
+            {
+                this.current_state = GameState.PlayerSetup; 
+                this.current_player = Player.One;
+                this.current_opponent = Player.Two; 
+            }
+            else
+            {
+                throw new Error("Invalid Number of Boats");
+            }
+        
+        }
+        if(this.current_state === GameState.PlayerSetup)
+        {
+            if(this.current_player === Player.One)
+            {
+                //wait
+            }
+            if(this.current_player === Player.Two)
+            {
+                //wait for now
+            }
+        }
+
+        
     }
 }
 
