@@ -23,6 +23,19 @@ export const GridCellState = {
 }
 
 /**
+ * Returns true if the given grid cell state represents a ship in some way.
+ * @param {GridCellState} grid_cell_state
+ * @return {boolean}
+ */
+export function isShipCell(grid_cell_state) {
+    return [
+        GridCellState.Ship,
+        GridCellState.Damaged,
+        GridCellState.Sunk,
+    ].includes(grid_cell_state)
+}
+
+/**
  * Enum of all possible players.
  * @type {object}
  */
@@ -50,6 +63,22 @@ export const GameState = {
 
     // A player has won
     PlayerVictory: 'player_victory',
+}
+
+/**
+ * The various supported ship types, by dimension.
+ * @type {object}
+ */
+export const ShipType = {
+    x1: '1x1',
+    x2: '1x2',
+    x3: '1x3',
+    x4: '1x4',
+    x5: '1x5',
+}
+
+export function isShipType(type) {
+    return ['1x1', '1x2', '1x3', '1x4', '1x5'].includes(type)
 }
 
 /**
