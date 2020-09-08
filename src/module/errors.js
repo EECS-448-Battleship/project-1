@@ -11,3 +11,9 @@ export class InvalidShipPlacementError extends Error {}
  * @extends Error
  */
 export class InvalidAdvanceStateError extends Error {}
+
+/**
+ * Error thrown when a missile is fired at an invalid cell.
+ * @extends Error
+ */
+export class InvalidMissileFireAttemptError extends Error {}
