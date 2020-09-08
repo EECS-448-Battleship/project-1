@@ -195,6 +195,27 @@ export class GameStateService {
     get_progress(){
         return(this.get_player_score() / this.get_progress() )
     }
+
+
+    /**
+     * responsible for advancing the game state 
+     * will be consisting of 
+     * @return 
+     * @private 
+     */
+    advance_game_state(){
+        /** functions to be made that validate:
+         * 1) number of ships
+         * 2) player one placement
+         * 3) player two placement
+         * 4) player one turn
+         * 5) advance to player 2
+         * 6) player 2 turn
+         * 7) advance to player one
+         * 8) player win
+         * 
+         */
+    }
 }
 
 // Export a single instance, so it can be shared by all files
