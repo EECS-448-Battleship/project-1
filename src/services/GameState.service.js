@@ -33,6 +33,34 @@ export class GameStateService {
     n_cols = 9
 
     /**
+     * Number boats placed on the board.
+     * @private
+     * @type {number}
+     */
+    n_boats = 1
+
+    /**
+     * gets the number of boats placed on the board
+     * @private
+     * @return {number}
+     */
+    get_n_boats(){
+        return (this.n_boats);
+    }
+
+    /**
+     * sets the number of boats to a valid number 
+     * @private
+     * @return none 
+     */
+    set_n_boats(number){
+        if(number >= 1 && number <= 5 )
+        {
+            this.n_boats = number; 
+        }
+    }
+
+    /**
      * The current state of the game.
      * @private
      * @type {string}
