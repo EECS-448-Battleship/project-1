@@ -163,6 +163,12 @@ export class GameStateService {
         return(score);
     }
 
+    /**
+     * gets the number of the boats (sunken, damaged or not) that the opponent has
+     * used to help keep get progress method looking clean
+     * @return {number}
+     * @private 
+     */
     get_boat_count(){
         let i = 1;
         let j = 1;
@@ -179,6 +185,15 @@ export class GameStateService {
             }
         }
         return(boat_count);
+    }
+
+    /**
+     * gets the progress (hits/total boats) that the player has
+     * @return {number}
+     * @private 
+     */
+    get_progress(){
+        return(this.get_player_score() / this.get_progress() )
     }
 }
 
