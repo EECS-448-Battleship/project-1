@@ -55,15 +55,7 @@ export default class GameBoardComponent extends Component {
     async vue_on_create() {
         this.rows = game_service.get_current_player_state()
         this.ready = true
-        //this.columnlabels = gam      
-
-        // var letters = [];
-
-        // for (let i = 0; i < this.n_rows; i++)
-        // {
-        //     this.rows[0][i] = letters[i];        
-        // }
-    
+   
 
     }
 }
