@@ -22,13 +22,14 @@ import game_service from '../services/GameState.service.js'
 const template  = `
 <div class="game-board-component" v-if="ready">
     <div class="grid-container">
-        <div class="grid-row" v-for="row of rows">
+        <div class="grid-row" v-for="(row,i) of rows">
+        <br> {{i}}
             <app-game-cell
                 v-for="cell of row"
                 v-bind:render="cell.render"
             ></app-game-cell>
         </div>
-    </div>
+     </div>
 </div>
 `
 export default class GameBoardComponent extends Component {
@@ -49,9 +50,20 @@ export default class GameBoardComponent extends Component {
      * @type {Array<Array<*>>}
      */
     rows = []
+    column_labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
 
     async vue_on_create() {
         this.rows = game_service.get_current_player_state()
         this.ready = true
+        //this.columnlabels = gam      
+
+        // var letters = [];
+
+        // for (let i = 0; i < this.n_rows; i++)
+        // {
+        //     this.rows[0][i] = letters[i];        
+        // }
+    
+
     }
 }
