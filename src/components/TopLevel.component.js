@@ -61,24 +61,24 @@ export default class TopLevelComponent extends Component {
     }
 
     ship1(){
-        game_service.advance_game_state()
         game_service.set_n_boats(1)
+        game_service.advance_game_state()
     }
     ship2(){
-        game_service.advance_game_state()
         game_service.set_n_boats(2)
+        game_service.advance_game_state()
     }
     ship3(){
-        game_service.advance_game_state()
         game_service.set_n_boats(3)
+        game_service.advance_game_state()
     }
     ship4(){
-        game_service.advance_game_state()
         game_service.set_n_boats(4)
+        game_service.advance_game_state()
     }
     ship5(){
-        game_service.advance_game_state()
         game_service.set_n_boats(5)
+        game_service.advance_game_state()
     }
 
 <<<<<<< HEAD
