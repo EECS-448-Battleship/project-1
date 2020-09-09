@@ -265,7 +265,7 @@ export class GameStateService {
                 throw new InvalidAdvanceStateError("Invalid Number of Boats");
             }
         }
-        if (this.current_state === GameState.PlayerSetup) {
+        else if (this.current_state === GameState.PlayerSetup) {
             if (this.current_player === Player.One) {
                 // because the place_ship handles all the validation
                 // all you need to do is make sure they have placed all the appropriate ships
@@ -277,7 +277,7 @@ export class GameStateService {
                     throw new InvalidAdvanceStateError("Player One has a problem with the number of boats selected");
                 }
             }
-            if (this.current_player === Player.Two) {
+            else if (this.current_player === Player.Two) {
                 if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
                     this.current_state = GameState.PlayerTurn;
                     this.current_player = Player.One;
@@ -288,7 +288,7 @@ export class GameStateService {
                 }
             }
         }
-        if (this.current_state === GameState.PlayerTurn && this.current_player === Player.One) {
+        else if (this.current_state === GameState.PlayerTurn && this.current_player === Player.One) {
             if (this.current_turn_had_missile_attempt === true) {
                 this.current_player = Player.Two;
                 this.current_opponent = Player.One;
@@ -297,7 +297,7 @@ export class GameStateService {
                 throw new InvalidAdvanceStateError("the player has not fired a missle");
             }
         }
-        if (this.current_state === GameState.PlayerTurn && this.current_player === Player.Two) {
+        else if (this.current_state === GameState.PlayerTurn && this.current_player === Player.Two) {
             if (this.current_turn_had_missile_attempt === true) {
                 this.current_player = Player.One;
                 this.current_opponent = Player.Two;
@@ -313,7 +313,16 @@ export class GameStateService {
             this.current_player = winner;
         }
 
+        this.current_turn_had_missile_attempt = false
         this.game_state_change_listeners.forEach(fn => fn(this.current_state))
+    }
+
+    /**
+     * Register a handler to be called when the game state changes.
+     * @param {function} handler
+     */
+    on_state_change(handler) {
+        this.game_state_change_listeners.push(handler)
     }
 
     /**
@@ -543,12 +552,14 @@ export class GameStateService {
 
         // Make sure to sink any fully-damaged ships
         this._sink_damaged_ships(player_1)
-        const player_1_loses = this.get_ship_cells(player_1).every(cell => cell.render === GridCellState.Sunk)
+        const player_1_ship_cells = this.get_ship_cells(player_1)
+        const player_1_loses = (player_1_ship_cells.length > 0) && player_1_ship_cells.every(cell => cell.render === GridCellState.Sunk)
         if ( player_1_loses ) return player_2
 
         // Make sure to sink any fully-damaged ships
         this._sink_damaged_ships(player_2)
-        const player_2_loses = this.get_ship_cells(player_2).every(cell => cell.render === GridCellState.Sunk)
+        const player_2_ship_cells = this.get_ship_cells(player_2)
+        const player_2_loses = (player_2_ship_cells.length > 0) && player_2_ship_cells.every(cell => cell.render === GridCellState.Sunk)
         if ( player_2_loses ) return player_2
     }
 
