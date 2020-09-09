@@ -1,5 +1,6 @@
 import GameBoardComponent from './components/GameBoard.component.js'
 import GridCellComponent from './components/GridCell.component.js'
+import TopLevelComponent from './components/TopLevel.component.js'
 
 /*
  * This is where various components we define should be registered.
@@ -8,4 +9,5 @@ import GridCellComponent from './components/GridCell.component.js'
 export default {
     GameBoardComponent,
     GridCellComponent,
+    TopLevelComponent,
 }
