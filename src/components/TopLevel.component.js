@@ -81,8 +81,3 @@ export default class TopLevelComponent extends Component {
         game_service.set_n_boats(5)
     }
 }
-
-<<<<<<< HEAD
-}
-=======
->>>>>>> 19aa3733d0604f37e6875b825eb51ccd4092d4c4
