@@ -16,6 +16,16 @@
     padding-top: 10px;
 }
 
+.shipBtn{
+  background-color: #327da8;
+  color: white;
+  padding: 5px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+}
+
 /* Styles for the various grid cell states. */
 
 .game-board-cell-component {
@@ -25,11 +35,11 @@
 }
 
 .game-board-cell-component.available {
-    background: #eeeeee;
+    background: #327da8;
 }
 
 .game-board-cell-component.available:hover {
-    background: #cccccc;
+    background: #3261a8;
 }
 
 .game-board-cell-component.disabled {

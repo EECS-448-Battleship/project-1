@@ -5,13 +5,16 @@ import game_service from '../services/GameState.service.js'
 const template = `
 <div class="top-level-component">
     <div v-if="current_state === GameState.ChoosingNumberOfShips">
-        Choose number of ships
+        Choose number of ships:
         <button @click="ship1" class="shipBtn">1 ship</button>
         <button @click="ship2" class="shipBtn">2 ships</button>
         <button @click="ship3" class="shipBtn">3 ships</button>
         <button @click="ship4" class="shipBtn">4 ships</button>
         <button @click="ship5" class="shipBtn">5 ships</button>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 19aa3733d0604f37e6875b825eb51ccd4092d4c4
     </div>
     <div v-if="current_state !== GameState.ChoosingNumberOfShips" class="game-boards-container">
         <!-- Opponent's board -->
@@ -79,3 +82,7 @@ export default class TopLevelComponent extends Component {
     }
 }
 
+<<<<<<< HEAD
+}
+=======
+>>>>>>> 19aa3733d0604f37e6875b825eb51ccd4092d4c4
