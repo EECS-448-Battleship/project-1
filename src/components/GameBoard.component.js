@@ -29,6 +29,10 @@ const template  = `
                 v-bind:render="cell.render"
             ></app-game-cell>
         </div>
+     <!--   <div class="column_labels"
+        v-for="(label,i) of column_labels">
+            {{ column_labels[i] }}
+       </div> --!>
      </div>
 </div>
 `
@@ -51,11 +55,11 @@ export default class GameBoardComponent extends Component {
      */
     rows = []
     column_labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+    
 
     async vue_on_create() {
         this.rows = game_service.get_current_player_state()
-        this.ready = true
-   
+        this.ready = true 
 
     }
 }

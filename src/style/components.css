@@ -41,3 +41,14 @@
 .game-board-cell-component.missed {
     background: #eeeeee;
 }
+
+.game-board-component {
+    display: flex;
+
+}
+.column_labels {
+    
+    padding: 20px;  
+    flex-direction: column-reverse;
+ 
+}
