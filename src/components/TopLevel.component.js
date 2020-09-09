@@ -77,4 +77,5 @@ export default class TopLevelComponent extends Component {
         game_service.advance_game_state()
         game_service.set_n_boats(5)
     }
+}
 
