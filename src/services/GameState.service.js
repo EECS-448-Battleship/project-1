@@ -90,6 +90,18 @@ export class GameStateService {
     current_opponent = Player.Two
 
     /**
+     * True if, during the current turn, the user has tried to fire a missile.
+     * @type {boolean}
+     */
+    current_turn_had_missile_attempt = false
+
+    /**
+     * Array of functions that are called when the game state changes.
+     * @type {function[]}
+     */
+    game_state_change_listeners = []
+
+    /**
      * Construct a new game service. Initialize any internal states.
      */
     constructor() {
@@ -218,6 +230,13 @@ export class GameStateService {
         return(this.get_player_score() / this.get_progress() )
     }
 
+    /**
+     * Get the current game state.
+     * @return {GameState}
+     */
+    get_game_state() {
+        return clone(this.current_state)
+    }
 
     /**
      * responsible for advancing the game state 
@@ -237,7 +256,6 @@ export class GameStateService {
          * 8) player win
          *
          */
-        //1
         if (this.current_state === GameState.ChoosingNumberOfShips) {
             if (this.n_boats >= 1 && this.n_boats <= 5) {
                 this.current_state = GameState.PlayerSetup;
@@ -246,19 +264,56 @@ export class GameStateService {
             } else {
                 throw new InvalidAdvanceStateError("Invalid Number of Boats");
             }
-
         }
         if (this.current_state === GameState.PlayerSetup) {
             if (this.current_player === Player.One) {
-                //wait
                 // because the place_ship handles all the validation
                 // all you need to do is make sure they have placed all the appropriate ships
-                // e.g. if ( this.get_ship_entities(this.current_player).length === this.n_boats ) { ... }
+                if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
+                    this.current_player = Player.Two;
+                    this.current_opponent = Player.One; 
+                }
+                else{
+                    throw new InvalidAdvanceStateError("Player One has a problem with the number of boats selected");
+                }
             }
             if (this.current_player === Player.Two) {
-                //wait for now
+                if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
+                    this.current_state = GameState.PlayerTurn;
+                    this.current_player = Player.One;
+                    this.current_opponent = Player.Two;
+                }
+                else{
+                    throw new InvalidAdvanceStateError("Player Two has a problem with the number of boats selected");
+                }
             }
         }
+        if (this.current_state === GameState.PlayerTurn && this.current_player === Player.One) {
+            if (this.current_turn_had_missile_attempt === true) {
+                this.current_player = Player.Two;
+                this.current_opponent = Player.One;
+            }
+            else {
+                throw new InvalidAdvanceStateError("the player has not fired a missle");
+            }
+        }
+        if (this.current_state === GameState.PlayerTurn && this.current_player === Player.Two) {
+            if (this.current_turn_had_missile_attempt === true) {
+                this.current_player = Player.One;
+                this.current_opponent = Player.Two;
+            }
+            else {
+                throw new InvalidAdvanceStateError("the player has not fired a missle");
+            }
+        }
+
+        let winner = this.get_winner();
+        if(winner) {
+            this.current_state = GameState.PlayerVictory; 
+            this.current_player = winner;
+        }
+
+        this.game_state_change_listeners.forEach(fn => fn(this.current_state))
     }
 
     /**
@@ -274,6 +329,12 @@ export class GameStateService {
      * @return {boolean}
      */
     attempt_missile_fire([target_row_i, target_col_i]) {
+        if ( this.current_turn_had_missile_attempt ) {
+            throw new InvalidMissileFireAttemptError('Cannot fire more than once per turn.')
+        } else {
+            this.current_turn_had_missile_attempt = true
+        }
+
         const target_cell = this._get_cell_state(this.current_opponent, target_row_i, target_col_i)
         if ( !isValidTargetCell(target_cell.render) )
             throw new InvalidMissileFireAttemptError('Cannot fire on cell with state: ' + target_cell.render)
@@ -470,6 +531,35 @@ export class GameStateService {
             })
         })
         return cells
+    }
+
+    /**
+     * If there is a winner, this will return the Player that won.
+     * If no winner has been decided yet, will return undefined.
+     * @return {Player|undefined}
+     */
+    get_winner() {
+        const [player_1, player_2] = this.players
+
+        // Make sure to sink any fully-damaged ships
+        this._sink_damaged_ships(player_1)
+        const player_1_loses = this.get_ship_cells(player_1).every(cell => cell.render === GridCellState.Sunk)
+        if ( player_1_loses ) return player_2
+
+        // Make sure to sink any fully-damaged ships
+        this._sink_damaged_ships(player_2)
+        const player_2_loses = this.get_ship_cells(player_2).every(cell => cell.render === GridCellState.Sunk)
+        if ( player_2_loses ) return player_2
+    }
+
+    /**
+     * Returns the other player.
+     * @param {Player} player
+     * @return {Player}
+     */
+    get_other_player(player) {
+        if ( player === Player.One ) return Player.Two
+        else if ( player === Player.Two ) return Player.One
     }
 
     /**
