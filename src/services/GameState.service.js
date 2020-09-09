@@ -253,12 +253,27 @@ export class GameStateService {
                 //wait
                 // because the place_ship handles all the validation
                 // all you need to do is make sure they have placed all the appropriate ships
-                // e.g. if ( this.get_ship_entities(this.current_player).length === this.n_boats ) { ... }
+                if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
+                    this.current_player = Player.Two;
+                    this.current_opponent = Player.One; 
+                }
+                else{
+                    throw new InvalidAdvanceStateError("Player One has a problem with the number of boats selected");
+                }
             }
             if (this.current_player === Player.Two) {
                 //wait for now
+                if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
+                    this.current_state = GameState.PlayerTurn;
+                    this.current_player = Player.One;
+                    this.current_opponent = Player.Two;
+                }
+                else{
+                    throw new InvalidAdvanceStateError("Player Two has a problem with the number of boats selected");
+                }
             }
         }
+        
     }
 
     /**
