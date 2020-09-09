@@ -1,5 +1,19 @@
+/* Styles for top-level component */
+.top-level-component .game-boards-container {
+    display: flex;
+}
+
+.top-level-component .game-boards-container .game-board {
+    margin-right: 50px;
+}
+
 .game-board-component .grid-container .grid-row {
     display: flex;
+}
+
+.game-board-component .grid-container .grid-row .label {
+    margin-right: 5px;
+    padding-top: 10px;
 }
 
 /* Styles for the various grid cell states. */
@@ -42,13 +56,13 @@
     background: #eeeeee;
 }
 
-.game-board-component {
-    display: flex;
-
-}
 .column_labels {
-    
-    padding: 20px;  
-    flex-direction: column-reverse;
- 
+    display: flex;
+    margin-top: 5px;
+    margin-left: 15px;
+}
+
+.column_labels .label {
+    width: 42px;
+    text-align: center;
 }

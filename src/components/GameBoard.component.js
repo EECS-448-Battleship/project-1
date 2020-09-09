@@ -23,17 +23,16 @@ const template  = `
 <div class="game-board-component" v-if="ready">
     <div class="grid-container">
         <div class="grid-row" v-for="(row,i) of rows">
-        <br> {{i}}
+        <br> <span class="label">{{ i + 1 }}</span>
             <app-game-cell
                 v-for="cell of row"
                 v-bind:render="cell.render"
             ></app-game-cell>
         </div>
-     <!--   <div class="column_labels"
-        v-for="(label,i) of column_labels">
-            {{ column_labels[i] }}
-       </div> --!>
-     </div>
+         <div class="column_labels">
+             <div class="label" v-for="(label,i) of column_labels">{{ label }}</div>
+         </div>
+    </div>
 </div>
 `
 export default class GameBoardComponent extends Component {
