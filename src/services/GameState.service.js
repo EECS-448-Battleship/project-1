@@ -96,6 +96,12 @@ export class GameStateService {
     current_turn_had_missile_attempt = false
 
     /**
+     * Array of functions that are called when the game state changes.
+     * @type {function[]}
+     */
+    game_state_change_listeners = []
+
+    /**
      * Construct a new game service. Initialize any internal states.
      */
     constructor() {
@@ -224,7 +230,6 @@ export class GameStateService {
         return(this.get_player_score() / this.get_progress() )
     }
 
-
     /**
      * responsible for advancing the game state 
      * will be consisting of 
@@ -243,7 +248,6 @@ export class GameStateService {
          * 8) player win
          *
          */
-        //1
         if (this.current_state === GameState.ChoosingNumberOfShips) {
             if (this.n_boats >= 1 && this.n_boats <= 5) {
                 this.current_state = GameState.PlayerSetup;
@@ -252,11 +256,9 @@ export class GameStateService {
             } else {
                 throw new InvalidAdvanceStateError("Invalid Number of Boats");
             }
-
         }
         if (this.current_state === GameState.PlayerSetup) {
             if (this.current_player === Player.One) {
-                //wait
                 // because the place_ship handles all the validation
                 // all you need to do is make sure they have placed all the appropriate ships
                 if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
@@ -268,7 +270,6 @@ export class GameStateService {
                 }
             }
             if (this.current_player === Player.Two) {
-                //wait for now
                 if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
                     this.current_state = GameState.PlayerTurn;
                     this.current_player = Player.One;
@@ -278,11 +279,8 @@ export class GameStateService {
                     throw new InvalidAdvanceStateError("Player Two has a problem with the number of boats selected");
                 }
             }
-            
-             
         }
         if (this.current_state === GameState.PlayerTurn && this.current_player === Player.One) {
-            
             if (this.current_turn_had_missile_attempt === true) {
                 this.current_player = Player.Two;
                 this.current_opponent = Player.One;
@@ -292,7 +290,6 @@ export class GameStateService {
             }
         }
         if (this.current_state === GameState.PlayerTurn && this.current_player === Player.Two) {
-            
             if (this.current_turn_had_missile_attempt === true) {
                 this.current_player = Player.One;
                 this.current_opponent = Player.Two;
@@ -308,7 +305,7 @@ export class GameStateService {
             this.current_player = winner;
         }
 
-
+        this.game_state_change_listeners.forEach(fn => fn(this.current_state))
     }
 
     /**
