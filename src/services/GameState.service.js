@@ -231,6 +231,14 @@ export class GameStateService {
     }
 
     /**
+     * Get the current game state.
+     * @return {GameState}
+     */
+    get_game_state() {
+        return clone(this.current_state)
+    }
+
+    /**
      * responsible for advancing the game state 
      * will be consisting of 
      * @return 
