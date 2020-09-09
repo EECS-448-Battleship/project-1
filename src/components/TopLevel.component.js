@@ -11,10 +11,6 @@ const template = `
         <button @click="ship3" class="shipBtn">3 ships</button>
         <button @click="ship4" class="shipBtn">4 ships</button>
         <button @click="ship5" class="shipBtn">5 ships</button>
-<<<<<<< HEAD
-=======
-
->>>>>>> 19aa3733d0604f37e6875b825eb51ccd4092d4c4
     </div>
     <div v-if="current_state !== GameState.ChoosingNumberOfShips" class="game-boards-container">
         <!-- Opponent's board -->
