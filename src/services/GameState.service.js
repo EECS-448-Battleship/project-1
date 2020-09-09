@@ -90,6 +90,12 @@ export class GameStateService {
     current_opponent = Player.Two
 
     /**
+     * True if, during the current turn, the user has tried to fire a missile.
+     * @type {boolean}
+     */
+    current_turn_had_missile_attempt = false
+
+    /**
      * Construct a new game service. Initialize any internal states.
      */
     constructor() {
@@ -274,6 +280,12 @@ export class GameStateService {
      * @return {boolean}
      */
     attempt_missile_fire([target_row_i, target_col_i]) {
+        if ( this.current_turn_had_missile_attempt ) {
+            throw new InvalidMissileFireAttemptError('Cannot fire more than once per turn.')
+        } else {
+            this.current_turn_had_missile_attempt = true
+        }
+
         const target_cell = this._get_cell_state(this.current_opponent, target_row_i, target_col_i)
         if ( !isValidTargetCell(target_cell.render) )
             throw new InvalidMissileFireAttemptError('Cannot fire on cell with state: ' + target_cell.render)
@@ -470,6 +482,35 @@ export class GameStateService {
             })
         })
         return cells
+    }
+
+    /**
+     * If there is a winner, this will return the Player that won.
+     * If no winner has been decided yet, will return undefined.
+     * @return {Player|undefined}
+     */
+    get_winner() {
+        const [player_1, player_2] = this.players
+
+        // Make sure to sink any fully-damaged ships
+        this._sink_damaged_ships(player_1)
+        const player_1_loses = this.get_ship_cells(player_1).every(cell => cell.render === GridCellState.Sunk)
+        if ( player_1_loses ) return player_2
+
+        // Make sure to sink any fully-damaged ships
+        this._sink_damaged_ships(player_2)
+        const player_2_loses = this.get_ship_cells(player_2).every(cell => cell.render === GridCellState.Sunk)
+        if ( player_2_loses ) return player_2
+    }
+
+    /**
+     * Returns the other player.
+     * @param {Player} player
+     * @return {Player}
+     */
+    get_other_player(player) {
+        if ( player === Player.One ) return Player.Two
+        else if ( player === Player.Two ) return Player.One
     }
 
     /**
