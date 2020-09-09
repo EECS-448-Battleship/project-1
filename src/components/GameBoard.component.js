@@ -38,7 +38,7 @@ const template  = `
 export default class GameBoardComponent extends Component {
     static get selector() { return 'app-game-board' }
     static get template() { return template }
-    static get props() { return [] }
+    static get props() { return ['rows'] }
 
     /**
      * If true, the grid is ready to be rendered. If false,
@@ -52,13 +52,11 @@ export default class GameBoardComponent extends Component {
      * an array of grid cell values.
      * @type {Array<Array<*>>}
      */
-    rows = []
+    // rows = []
     column_labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
     
 
     async vue_on_create() {
-        this.rows = game_service.get_current_player_state()
-        this.ready = true 
-
+        this.ready = true
     }
 }
