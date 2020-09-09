@@ -278,8 +278,31 @@ export class GameStateService {
                     throw new InvalidAdvanceStateError("Player Two has a problem with the number of boats selected");
                 }
             }
+            
+             
+        }
+        if (this.current_state === GameState.PlayerTurn && this.current_player === Player.One) {
+            
+            if (this.current_turn_had_missile_attempt === true) {
+                this.current_player = Player.Two;
+                this.current_opponent = Player.One;
+            }
+            else {
+                throw new InvalidAdvanceStateError("the player has not fired a missle");
+            }
+        }
+        if (this.current_state === GameState.PlayerTurn && this.current_player === Player.Two) {
+            
+            if (this.current_turn_had_missile_attempt === true) {
+                this.current_player = Player.One;
+                this.current_opponent = Player.Two;
+            }
+            else {
+                throw new InvalidAdvanceStateError("the player has not fired a missle");
+            }
         }
         
+
     }
 
     /**
