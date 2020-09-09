@@ -12,7 +12,6 @@ const template = `
         <button @click="ship4" class="shipBtn">4 ships</button>
         <button @click="ship5" class="shipBtn">5 ships</button>
 
-        <button @click="bypass">Bypass for now</button>
     </div>
     <div v-if="current_state !== GameState.ChoosingNumberOfShips" class="game-boards-container">
         <!-- Opponent's board -->
@@ -60,20 +59,22 @@ export default class TopLevelComponent extends Component {
 
     ship1(){
         game_service.advance_game_state()
+        game_service.set_n_boats(1)
     }
     ship2(){
         game_service.advance_game_state()
+        game_service.set_n_boats(2)
     }
     ship3(){
         game_service.advance_game_state()
+        game_service.set_n_boats(3)
     }
     ship4(){
         game_service.advance_game_state()
+        game_service.set_n_boats(4)
     }
     ship5(){
         game_service.advance_game_state()
+        game_service.set_n_boats(5)
     }
-    bypass() {
-        game_service.advance_game_state()
-    }
-}
+
