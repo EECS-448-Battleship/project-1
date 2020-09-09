@@ -301,7 +301,13 @@ export class GameStateService {
                 throw new InvalidAdvanceStateError("the player has not fired a missle");
             }
         }
-        
+
+        let winner = this.get_winner();
+        if(winner) {
+            this.current_state = GameState.PlayerVictory; 
+            this.current_player = winner;
+        }
+
 
     }
 
