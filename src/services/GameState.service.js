@@ -553,13 +553,19 @@ export class GameStateService {
         // Make sure to sink any fully-damaged ships
         this._sink_damaged_ships(player_1)
         const player_1_ship_cells = this.get_ship_cells(player_1)
-        const player_1_loses = (player_1_ship_cells.length > 0) && player_1_ship_cells.every(cell => cell.render === GridCellState.Sunk)
+        const player_1_loses = (
+            (player_1_ship_cells.length > 0)
+            && player_1_ship_cells.every(cell => this._get_cell_state(player_1, cell[0], cell[1]).render === GridCellState.Sunk)
+        )
         if ( player_1_loses ) return player_2
 
         // Make sure to sink any fully-damaged ships
         this._sink_damaged_ships(player_2)
         const player_2_ship_cells = this.get_ship_cells(player_2)
-        const player_2_loses = (player_2_ship_cells.length > 0) && player_2_ship_cells.every(cell => cell.render === GridCellState.Sunk)
+        const player_2_loses = (
+            (player_2_ship_cells.length > 0)
+            && player_2_ship_cells.every(cell => this._get_cell_state(player_2, cell[0], cell[1]).render === GridCellState.Sunk)
+        )
         if ( player_2_loses ) return player_2
     }
 
