@@ -134,7 +134,7 @@ export default class GameBoardComponent extends Component {
             }
 
             // Don't allow placing on existing ships
-            is_valid_hover = !ghost_cells.some(([row_i, col_i]) => this.is_ship_cell(row_i, col_i))
+            is_valid_hover = is_valid_hover && !ghost_cells.some(([row_i, col_i]) => this.is_ship_cell(row_i, col_i))
 
             if ( is_valid_hover ) {
                 this.ship_ghost_cells = ghost_cells
@@ -153,7 +153,7 @@ export default class GameBoardComponent extends Component {
      * @return {boolean}
      */
     is_ship_cell(row_i, col_i) {
-        return isShipCell(this.rows[row_i][col_i].render)
+        return this.rows[row_i] && this.rows[row_i][col_i] && isShipCell(this.rows[row_i][col_i].render)
     }
 
     /**
