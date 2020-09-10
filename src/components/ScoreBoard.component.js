@@ -21,13 +21,15 @@ export default class ScoreBoardComponent extends Component {
         game_service.on_state_change(() => {
             this.update()
         })
+
+        this.update()
     }
 
     update() {
         // here is where you should fetch the data from the game service and update variables on the class
         this.player_one_score = game_service.get_player_score(Player.One)
         this.player_two_score = game_service.get_player_score(Player.Two)
-        this.player_one_progress = game_service.get_player_progress(Player.One)
-        this.player_two_progress = game_service.get_player_progress(Player.two)
+        this.player_one_progress = game_service.get_progress(Player.One)
+        this.player_two_progress = game_service.get_progress(Player.Two)
     }
 }
