@@ -6,11 +6,11 @@ const template = `
 <div class="top-level-component">
     <div v-if="current_state === GameState.ChoosingNumberOfShips">
         Choose number of ships:
-        <button @click="ship1" class="shipBtn">1 ship</button>
-        <button @click="ship2" class="shipBtn">2 ships</button>
-        <button @click="ship3" class="shipBtn">3 ships</button>
-        <button @click="ship4" class="shipBtn">4 ships</button>
-        <button @click="ship5" class="shipBtn">5 ships</button>
+        <button @click="ship(1)" class="shipBtn">1 ship</button>
+        <button @click="ship(2)" class="shipBtn">2 ships</button>
+        <button @click="ship(3)" class="shipBtn">3 ships</button>
+        <button @click="ship(4)" class="shipBtn">4 ships</button>
+        <button @click="ship(5)" class="shipBtn">5 ships</button>
     </div>
     <div v-if="current_state !== GameState.ChoosingNumberOfShips" class="game-boards-container">
         <!-- Opponent's board -->
@@ -46,6 +46,8 @@ export default class TopLevelComponent extends Component {
 
     player_rows = []
 
+    instructions = ''
+
     async vue_on_create() {
         console.log('game service', game_service)
         this.current_state = game_service.get_game_state()
@@ -53,27 +55,13 @@ export default class TopLevelComponent extends Component {
             this.current_state = next_state
             this.opponent_rows = game_service.get_current_opponent_state()
             this.player_rows = game_service.get_current_player_state()
+
+            // add code for instructions
         })
     }
 
-    ship1(){
-        game_service.set_n_boats(1)
-        game_service.advance_game_state()
-    }
-    ship2(){
-        game_service.set_n_boats(2)
-        game_service.advance_game_state()
-    }
-    ship3(){
-        game_service.set_n_boats(3)
-        game_service.advance_game_state()
-    }
-    ship4(){
-        game_service.set_n_boats(4)
-        game_service.advance_game_state()
-    }
-    ship5(){
-        game_service.set_n_boats(5)
+    ship(n) {
+        game_service.set_n_boats(n)
         game_service.advance_game_state()
     }
 }

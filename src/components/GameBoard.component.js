@@ -1,5 +1,4 @@
 import {Component} from '../../lib/vues6.js'
-import game_service from '../services/GameState.service.js'
 
 /*
  * This is the HTML/JavaScript for the game board component.
@@ -25,8 +24,9 @@ const template  = `
         <div class="grid-row" v-for="(row,i) of rows">
         <br> <span class="label">{{ i + 1 }}</span>
             <app-game-cell
-                v-for="cell of row"
+                v-for="(cell,j) of row"
                 v-bind:render="cell.render"
+                @click="on_cell_click(i,j)"
             ></app-game-cell>
         </div>
          <div class="column_labels">
@@ -54,9 +54,12 @@ export default class GameBoardComponent extends Component {
      */
     // rows = []
     column_labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
-    
 
     async vue_on_create() {
         this.ready = true
+    }
+
+    on_cell_click(row_i, cell_i) {
+        alert(`${row_i} : ${cell_i}`)
     }
 }
