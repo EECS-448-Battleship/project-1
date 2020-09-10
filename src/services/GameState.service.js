@@ -179,15 +179,15 @@ export class GameStateService {
      * @return {number}
      * @private 
      */
-    get_player_score () {
+    get_player_score(player) {
         let i = 1;
         let j = 1;
         let score = 0;
-        for(i; i<=9; i++)
+        for(i; i<=8; i++)
         {
-            for(j; j<=9; j++)
+            for(j; j<=8; j++)
             {
-                let cell = this.player_x_game_board[this.current_opponent][i][j];
+                let cell = this.player_x_game_board[this.get_other_player(player)][i][j];
                 if(cell.render === GridCellState.Damaged || cell.render === GridCellState.Sunk )
                 {
                     score++;
@@ -203,15 +203,15 @@ export class GameStateService {
      * @return {number}
      * @private 
      */
-    get_boat_count(){
+    get_boat_count(player){
         let i = 1;
         let j = 1;
         let boat_count = 0;
-        for(i; i<=9; i++)
+        for(i; i<=8; i++)
         {
-            for(j; j<=9; j++)
+            for(j; j<=8; j++)
             {
-                let cell = this.player_x_game_board[this.current_opponent][i][j];
+                let cell = this.player_x_game_board[this.get_other_player(player)][i][j];
                 if(cell.render === GridCellState.Damaged || cell.render === GridCellState.Sunk || cell.render === GridCellState.Ship )
                 {
                     boat_count++;
@@ -226,8 +226,8 @@ export class GameStateService {
      * @return {number}
      * @private 
      */
-    get_progress(){
-        return(this.get_player_score() / this.get_progress() )
+    get_progress(player){
+        return(this.get_player_score(player) / this.get_boat_count(player))
     }
 
     /**

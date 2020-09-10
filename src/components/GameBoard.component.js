@@ -1,4 +1,5 @@
 import {Component} from '../../lib/vues6.js'
+import {Player} from '../module/util.js'
 
 /*
  * This is the HTML/JavaScript for the game board component.

@@ -1,5 +1,6 @@
 import {Component} from '../../lib/vues6.js'
 import game_service from '../services/GameState.service.js'
+import {Player} from '../module/util.js'
 
 const template = `
 <div class="app-scoreboard-component">
@@ -21,5 +22,6 @@ export default class ScoreBoardComponent extends Component {
 
     update() {
         // here is where you should fetch the data from the game service and update variables on the class
+        this.player_one_score = game_service.get_player_score(Player.One)
     }
 }
