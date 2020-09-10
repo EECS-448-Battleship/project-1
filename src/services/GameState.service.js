@@ -314,7 +314,7 @@ export class GameStateService {
         }
 
         this.current_turn_had_missile_attempt = false
-        this.game_state_change_listeners.forEach(fn => fn(this.current_state))
+        this.game_state_change_listeners.forEach(fn => fn(this.current_state, false))
     }
 
     /**
@@ -422,6 +422,9 @@ export class GameStateService {
         this.get_covered_cells(coords_one, coords_two).some(([row_i, col_i]) => {
             this._set_cell_state(this.current_player, row_i, col_i, GridCellState.Ship)
         })
+
+        // refresh the view
+        this._trigger_view_update()
     }
 
     /**
@@ -626,6 +629,14 @@ export class GameStateService {
      */
     _get_cell_state(player, row_i, col_i) {
         return this.player_x_game_board[player][row_i][col_i]
+    }
+
+    /**
+     * Force a view update without changing the current state.
+     * @private
+     */
+    _trigger_view_update() {
+        this.game_state_change_listeners.forEach(fn => fn(this.current_state, true))
     }
 }
 
