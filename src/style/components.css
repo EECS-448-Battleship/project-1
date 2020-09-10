@@ -76,3 +76,22 @@
     width: 42px;
     text-align: center;
 }
+
+h1 {
+
+    text-align:center;
+}
+
+p {
+    text-align: center;  
+}
+
+.top-level-component {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
