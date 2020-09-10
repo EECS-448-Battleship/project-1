@@ -66,6 +66,10 @@
     background: #ffbbbb;
 }
 
+.game-board-cell-component.ghost {
+    background: #507090;
+}
+
 .column_labels {
     display: flex;
     margin-top: 5px;

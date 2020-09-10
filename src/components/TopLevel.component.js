@@ -21,7 +21,7 @@ const template = `
     
             <!-- Player's board -->
             <div class="game-board">
-                <app-game-board v-bind:rows="player_rows"></app-game-board>
+                <app-game-board v-bind:rows="player_rows" v-bind:is_placement_mode="player_is_placing_ships"></app-game-board>
             </div>
         </div>
     </div>
@@ -53,6 +53,12 @@ export default class TopLevelComponent extends Component {
 
     instructions = ''
 
+    /**
+     * True if the player should be able to place their ships.
+     * @type {boolean}
+     */
+    player_is_placing_ships = false
+
     async vue_on_create() {
         console.log('game service', game_service)
         this.current_state = game_service.get_game_state()
@@ -60,6 +66,7 @@ export default class TopLevelComponent extends Component {
             this.current_state = next_state
             this.opponent_rows = game_service.get_current_opponent_state()
             this.player_rows = game_service.get_current_player_state()
+            this.player_is_placing_ships = next_state === GameState.PlayerSetup
 
             // add code for instructions
         })
