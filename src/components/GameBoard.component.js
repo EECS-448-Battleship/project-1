@@ -42,7 +42,7 @@ const template  = `
 export default class GameBoardComponent extends Component {
     static get selector() { return 'app-game-board' }
     static get template() { return template }
-    static get props() { return ['rows', 'is_placement_mode'] }
+    static get props() { return ['rows', 'is_placement_mode', 'ships_to_place'] }
 
     /**
      * If true, the grid is ready to be rendered. If false,
@@ -104,7 +104,17 @@ export default class GameBoardComponent extends Component {
     }
 
     on_cell_click(row_i, cell_i) {
+        if ( this.is_placement_mode && this.ships_to_place[0] ) {
+            // We should try to place a ship here
+            if ( this.ship_ghost_cells.length > 0 ) {
+                // We have some valid ship placement coordinates
+                const coord_one = this.ship_ghost_cells[0]
+                const coord_two = this.ship_ghost_cells.slice(-1)[0]
 
+                game_service.place_ship(this.ships_to_place[0], coord_one, coord_two)
+                this.$emit('shipplaced')
+            }
+        }
     }
 
     /**
@@ -115,18 +125,20 @@ export default class GameBoardComponent extends Component {
      */
     on_cell_hover(row_i, cell_i) {
         if ( this.is_placement_mode ) {
+            // If we're in placement mode, determine if the cell the user is hovering
+            // over is a valid place to place the ship.
             const ghost_cells = [[row_i, cell_i]]
             const is_horizontal = this.shift_pressed
             let is_valid_hover = true
 
             if ( !is_horizontal ) {
-                const num_cells = game_service.get_ship_length(this.current_placement)
+                const num_cells = game_service.get_ship_length(this.ships_to_place[0])
                 for ( let i = row_i + 1; i < row_i + num_cells; i += 1 ) {
                     ghost_cells.push([i, cell_i])
                     if ( i > 8 ) is_valid_hover = false
                 }
             } else {
-                const num_cells = game_service.get_ship_length(this.current_placement)
+                const num_cells = game_service.get_ship_length(this.ships_to_place[0])
                 for ( let i = cell_i + 1; i < cell_i + num_cells; i += 1 ) {
                     ghost_cells.push([row_i, i])
                     if ( i > 8 ) is_valid_hover = false
