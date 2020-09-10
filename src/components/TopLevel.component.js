@@ -3,25 +3,30 @@ import {GameState} from '../module/util.js'
 import game_service from '../services/GameState.service.js'
 
 const template = `
-<div class="top-level-component">
-    <div v-if="current_state === GameState.ChoosingNumberOfShips">
-        Choose number of ships:
-        <button @click="ship(1)" class="shipBtn">1 ship</button>
-        <button @click="ship(2)" class="shipBtn">2 ships</button>
-        <button @click="ship(3)" class="shipBtn">3 ships</button>
-        <button @click="ship(4)" class="shipBtn">4 ships</button>
-        <button @click="ship(5)" class="shipBtn">5 ships</button>
+<div class="top-level-container">
+    <div class="top-level-component">
+        <div v-if="current_state === GameState.ChoosingNumberOfShips">
+            Choose number of ships:
+            <button @click="ship(1)" class="shipBtn">1 ship</button>
+            <button @click="ship(2)" class="shipBtn">2 ships</button>
+            <button @click="ship(3)" class="shipBtn">3 ships</button>
+            <button @click="ship(4)" class="shipBtn">4 ships</button>
+            <button @click="ship(5)" class="shipBtn">5 ships</button>
+        </div>
+        <div v-if="current_state !== GameState.ChoosingNumberOfShips" class="game-boards-container">
+            <!-- Opponent's board -->
+            <div class="game-board">
+                <app-game-board v-bind:rows="opponent_rows"></app-game-board>
+            </div>
+    
+            <!-- Player's board -->
+            <div class="game-board">
+                <app-game-board v-bind:rows="player_rows"></app-game-board>
+            </div>
+        </div>
     </div>
-    <div v-if="current_state !== GameState.ChoosingNumberOfShips" class="game-boards-container">
-        <!-- Opponent's board -->
-        <div class="game-board">
-            <app-game-board v-bind:rows="opponent_rows"></app-game-board>
-        </div>
-
-        <!-- Player's board -->
-        <div class="game-board">
-            <app-game-board v-bind:rows="player_rows"></app-game-board>
-        </div>
+    <div class="scoreboard-container">
+        <app-scoreboard></app-scoreboard>
     </div>
 </div>
 `
