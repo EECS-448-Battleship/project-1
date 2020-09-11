@@ -1,5 +1,5 @@
 import {Component} from '../../lib/vues6.js'
-import {GameState} from '../module/util.js'
+import {GameState, ShipType} from '../module/util.js'
 import game_service from '../services/GameState.service.js'
 
 const template = `
@@ -40,7 +40,12 @@ const template = `
     
             <!-- Player's board -->
             <div class="game-board">
-                <app-game-board v-bind:rows="player_rows"></app-game-board>
+                <app-game-board
+                    v-bind:rows="player_rows"
+                    v-bind:is_placement_mode="player_is_placing_ships"
+                    v-bind:ships_to_place="ships_to_place"
+                    @shipplaced="on_ship_placed"
+                ></app-game-board>
             </div>
         </div>
     </div>
@@ -66,26 +71,73 @@ export default class TopLevelComponent extends Component {
      */
     current_state = undefined
 
+    /**
+     * The opponent's grid data.
+     * @type {object[][]}
+     */
     opponent_rows = []
 
+    /**
+     * The player's grid data.
+     * @type {object[][]}
+     */
     player_rows = []
 
+    /**
+     * The current instructions to be shown to the user.
+     * @type {string}
+     */
     instructions = ''
+
+    /**
+     * True if the player should be able to place their ships.
+     * @type {boolean}
+     */
+    player_is_placing_ships = false
+
+    /**
+     * If in placement mode, the ships that are yet to be placed.
+     * @type {ShipType[]}
+     */
+    ships_to_place = []
 
     async vue_on_create() {
         console.log('game service', game_service)
         this.current_state = game_service.get_game_state()
-        game_service.on_state_change((next_state) => {
+
+        // Called every time the game state is updated
+        game_service.on_state_change((next_state, was_refresh) => {
             this.current_state = next_state
             this.opponent_rows = game_service.get_current_opponent_state()
             this.player_rows = game_service.get_current_player_state()
 
-            // add code for instructions
+            this.player_is_placing_ships = next_state === GameState.PlayerSetup
+            if ( !was_refresh && this.player_is_placing_ships ) {
+                // TODO replace with call to game state service
+                this.ships_to_place = [ShipType.x1, ShipType.x2, ShipType.x3]
+            }
+
+            // TODO add code for instructions
         })
     }
 
+    /**
+     * Set the number of boats.
+     * @param {number} n
+     */
     ship(n) {
         game_service.set_n_boats(n)
         game_service.advance_game_state()
+    }
+
+    /**
+     * Called when the current user has placed a ship.
+     */
+    on_ship_placed() {
+        this.ships_to_place.shift()
+        if ( this.ships_to_place.length < 1 ) {
+            // We've placed all the ships. Let's move on.
+            game_service.advance_game_state()
+        }
     }
 }

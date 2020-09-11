@@ -5,9 +5,11 @@ const template = `
 <div
     class="game-board-cell-component"
     @click="on_click"
+    @mouseover="on_hover($event)"
+    @mouseleave="on_mouse_leave"
     v-bind:class="{ disabled: render === GridCellState.Disabled, available: render === GridCellState.Available,
     ship: render == GridCellState.Ship, damaged: render == GridCellState.Damaged, sunk: render == GridCellState.Sunk,
-    missed: render == GridCellState.Missed }"
+    missed: render == GridCellState.Missed, ghost: has_ghost_ship }"
 >
 
 </div>
@@ -20,6 +22,7 @@ export default class GridCellComponent extends Component {
     static get props() {
         return [
             'render',
+            'has_ghost_ship',
         ]
     }
 
@@ -28,5 +31,13 @@ export default class GridCellComponent extends Component {
 
     on_click() {
         this.$emit('click')
+    }
+
+    on_hover($event) {
+        this.$emit('hover', $event)
+    }
+
+    on_mouse_leave() {
+        this.$emit('hoverchange')
     }
 }
