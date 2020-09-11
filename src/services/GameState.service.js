@@ -57,17 +57,34 @@ export class GameStateService {
     }
 
     /**
-     * sets the number of boats to a valid number 
+     * sets the number of boats to a valid number
      * @private
-     * @return none 
+     * @return none
      */
     set_n_boats(number){
         if(number >= 1 && number <= 5 )
         {
-            this.n_boats = number; 
+            this.n_boats = number;
         }
     }
 
+    get_possible_boats(number){
+      if (get_n_boats == 1) {
+          return (ships:x1)
+      }
+      if (get_n_boats == 2) {
+          return (ships:x1, x2)
+      }
+      if (get_n_boats == 3) {
+          return (ships:x1, x2, x3)
+      }
+      if (get_n_boats == 4) {
+          return (ships:x1, x2, x3,x4)
+      }
+      if (get_n_boats == 5) {
+          return (ships:x1, x2, x3, x4, x5)
+      }
+    }
     /**
      * The current state of the game.
      * @private
@@ -174,10 +191,10 @@ export class GameStateService {
     }
 
     /**
-     * get the "score" (the number of hits) that the 
+     * get the "score" (the number of hits) that the
      * current player has (counting sunk ships)
      * @return {number}
-     * @private 
+     * @private
      */
     get_player_score(player) {
         let i = 1;
@@ -201,7 +218,7 @@ export class GameStateService {
      * gets the number of the boats (sunken, damaged or not) that the opponent has
      * used to help keep get progress method looking clean
      * @return {number}
-     * @private 
+     * @private
      */
     get_boat_count(player){
         let i = 1;
@@ -224,7 +241,7 @@ export class GameStateService {
     /**
      * gets the progress (hits/total boats) that the player has
      * @return {number}
-     * @private 
+     * @private
      */
     get_progress(player){
         return(this.get_player_score(player) / this.get_boat_count(player))
@@ -239,10 +256,10 @@ export class GameStateService {
     }
 
     /**
-     * responsible for advancing the game state 
-     * will be consisting of 
-     * @return 
-     * @private 
+     * responsible for advancing the game state
+     * will be consisting of
+     * @return
+     * @private
      */
     advance_game_state() {
         /** functions to be made that validate:
@@ -271,7 +288,7 @@ export class GameStateService {
                 // all you need to do is make sure they have placed all the appropriate ships
                 if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
                     this.current_player = Player.Two;
-                    this.current_opponent = Player.One; 
+                    this.current_opponent = Player.One;
                 }
                 else{
                     throw new InvalidAdvanceStateError("Player One has a problem with the number of boats selected");
@@ -309,7 +326,7 @@ export class GameStateService {
 
         let winner = this.get_winner();
         if(winner) {
-            this.current_state = GameState.PlayerVictory; 
+            this.current_state = GameState.PlayerVictory;
             this.current_player = winner;
         }
 

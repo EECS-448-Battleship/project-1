@@ -55,12 +55,20 @@ export default class GameBoardComponent extends Component {
      */
     // rows = []
     column_labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
     async vue_on_create() {
         this.ready = true
     }
 
+<<<<<<< Updated upstream
     on_cell_click(row_i, cell_i) {
         alert(`${row_i} : ${cell_i}`)
     }
+=======
+    
+>>>>>>> Stashed changes
 }

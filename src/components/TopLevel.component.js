@@ -3,6 +3,7 @@ import {GameState} from '../module/util.js'
 import game_service from '../services/GameState.service.js'
 
 const template = `
+<<<<<<< Updated upstream
 <div class="top-level-container">
     <div class="top-level-component">
         <div v-if="current_state === GameState.ChoosingNumberOfShips">
@@ -12,6 +13,24 @@ const template = `
             <button @click="ship(3)" class="shipBtn">3 ships</button>
             <button @click="ship(4)" class="shipBtn">4 ships</button>
             <button @click="ship(5)" class="shipBtn">5 ships</button>
+=======
+<div class="top-level-component">
+    <div v-if="current_state === GameState.ChoosingNumberOfShips">
+        Choose number of ships:
+        <button @click="ship1" class="shipBtn">1 ship</button>
+        <button @click="ship2" class="shipBtn">2 ships</button>
+        <button @click="ship3" class="shipBtn">3 ships</button>
+        <button @click="ship4" class="shipBtn">4 ships</button>
+        <button @click="ship5" class="shipBtn">5 ships</button>
+    </div>
+<<<<<<< HEAD
+=======
+>>>>>>> 19aa3733d0604f37e6875b825eb51ccd4092d4c4
+    <div v-if="current_state !== GameState.ChoosingNumberOfShips" class="game-boards-container">
+        <!-- Opponent's board -->
+        <div class="game-board">
+            <app-game-board v-bind:rows="opponent_rows"></app-game-board>
+>>>>>>> Stashed changes
         </div>
         <div v-if="current_state !== GameState.ChoosingNumberOfShips" class="game-boards-container">
             <!-- Opponent's board -->
