@@ -24,10 +24,12 @@ const template = `
             v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange && instructions"
             class="instructions"
         >
-            {{ instructions }}
+            {{ instructions.replace('{player}', current_player_display) }}
         </div>
         <div
-            v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange"
+            v-if="current_state !== GameState.ChoosingNumberOfShips
+                    && current_state !== GameState.PromptPlayerChange
+                    && current_state !== GameState.PlayerVictory"
             class="game-boards-container"
         >
             <!-- Opponent's board -->
@@ -49,6 +51,26 @@ const template = `
                     @shipplaced="on_ship_placed"
                 ></app-game-board>
                 <div class="fleet-label">Your fleet</div>
+            </div>
+        </div>
+        <div
+            v-if="current_state === GameState.PlayerVictory"
+            class="game-boards-container"
+        >
+            <!-- Winner's board -->
+            <div class="game-board">
+                <app-game-board
+                    v-bind:rows="player_rows"
+                ></app-game-board>
+                <div class="fleet-label">{{ current_player_display }}'s fleet (winner)</div>
+            </div>
+    
+            <!-- Loser's board -->
+            <div class="game-board">
+                <app-game-board
+                    v-bind:rows="opponent_rows"
+                ></app-game-board>
+                <div class="fleet-label">{{ current_opponent_display }}'s fleet</div>
             </div>
         </div>
     </div>
