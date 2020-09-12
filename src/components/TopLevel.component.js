@@ -204,7 +204,7 @@ export default class TopLevelComponent extends Component {
             // Give the user time to see whether they hit or not
             setTimeout(() => {
                 game_service.advance_game_state()
-            }, 5000)
+            }, 2000)
         }
     }
 
