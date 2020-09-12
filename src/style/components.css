@@ -101,5 +101,27 @@ p {
 
 }
 
+.game-player-change-container, .game-choose-ships-container {
+    height: calc(40px * 9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
+.playerBtn {
+    background-color: #327da8;
+    color: white;
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 30px;
+}
+
+.fleet-label {
+    text-align: center;
+    margin: 20px;
+}
 
