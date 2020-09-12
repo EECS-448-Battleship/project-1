@@ -42,7 +42,7 @@ const template  = `
 export default class GameBoardComponent extends Component {
     static get selector() { return 'app-game-board' }
     static get template() { return template }
-    static get props() { return ['rows', 'is_placement_mode', 'ships_to_place'] }
+    static get props() { return ['rows', 'is_placement_mode', 'ships_to_place', 'is_missile_mode'] }
 
     /**
      * If true, the grid is ready to be rendered. If false,
@@ -113,6 +113,7 @@ export default class GameBoardComponent extends Component {
 
                 game_service.place_ship(this.ships_to_place[0], coord_one, coord_two)
                 this.$emit('shipplaced')
+                this.$emit('missilefired',[row_i ,cell_i])
             }
         }
     }
