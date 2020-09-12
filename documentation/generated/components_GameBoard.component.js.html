@@ -1,4 +1,32 @@
-import {Component} from '../../lib/vues6.js'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/GameBoard.component.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/GameBoard.component.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {Component} from '../../lib/vues6.js'
 import {ShipType, isShipCell} from '../module/util.js'
 import game_service from '../services/GameState.service.js'
 
@@ -13,7 +41,7 @@ import game_service from '../services/GameState.service.js'
  * The class below manages the logic referenced by the template. Then, we can use the component
  * in the application by creating an HTML tag with the value of the "selector()" getter.
  *
- * In this case, that's the <app-game-board></app-game-board> tag in index.html.
+ * In this case, that's the &lt;app-game-board>&lt;/app-game-board> tag in index.html.
  *
  * We can also use components w/in components, to keep code clean. For example, we could have
  * a battleship component that we reference inside this game board component.
@@ -21,23 +49,23 @@ import game_service from '../services/GameState.service.js'
  * Battleship grid is 14x14.
  */
 const template  = `
-<div class="game-board-component" v-if="ready" @mouseleave="on_mouse_leave">
-    <div class="grid-container">
-        <div class="grid-row" v-for="(row,i) of rows">
-        <br> <span class="label">{{ i + 1 }}</span>
-            <app-game-cell
+&lt;div class="game-board-component" v-if="ready" @mouseleave="on_mouse_leave">
+    &lt;div class="grid-container">
+        &lt;div class="grid-row" v-for="(row,i) of rows">
+        &lt;br> &lt;span class="label">{{ i + 1 }}&lt;/span>
+            &lt;app-game-cell
                 v-for="(cell,j) of row"
                 v-bind:render="cell.render"
                 @click="on_cell_click(i,j)"
                 @hover="on_cell_hover(i,j)"
                 v-bind:has_ghost_ship="is_ghost_cell(i,j)"
-            ></app-game-cell>
-        </div>
-         <div class="column_labels">
-             <div class="label" v-for="(label,i) of column_labels">{{ label }}</div>
-         </div>
-    </div>
-</div>
+            >&lt;/app-game-cell>
+        &lt;/div>
+         &lt;div class="column_labels">
+             &lt;div class="label" v-for="(label,i) of column_labels">{{ label }}&lt;/div>
+         &lt;/div>
+    &lt;/div>
+&lt;/div>
 `
 
 /**
@@ -90,7 +118,7 @@ class GameBoardComponent extends Component {
 
     /**
      * Called when the component is initialized.
-     * @return {Promise<void>}
+     * @return {Promise&lt;void>}
      */
     async vue_on_create() {
         this.ready = true
@@ -107,7 +135,7 @@ class GameBoardComponent extends Component {
 
     /**
      * Called when the component is destroyed.
-     * @return {Promise<void>}
+     * @return {Promise&lt;void>}
      */
     async vue_on_destroy() {
         // Remove the event listeners for the shift key
@@ -123,7 +151,7 @@ class GameBoardComponent extends Component {
      * @param {number} cell_i - the index of the cell
      */
     on_cell_click(row_i, cell_i) {
-        if ( this.is_placement_mode && this.ships_to_place[0] ) {
+        if ( this.is_placement_mode &amp;&amp; this.ships_to_place[0] ) {
             // We should try to place a ship here
             if ( this.ship_ghost_cells.length > 0 ) {
                 // We have some valid ship placement coordinates
@@ -154,20 +182,20 @@ class GameBoardComponent extends Component {
 
             if ( !is_horizontal ) {
                 const num_cells = game_service.get_ship_length(this.ships_to_place[0])
-                for ( let i = row_i + 1; i < row_i + num_cells; i += 1 ) {
+                for ( let i = row_i + 1; i &lt; row_i + num_cells; i += 1 ) {
                     ghost_cells.push([i, cell_i])
                     if ( i > 8 ) is_valid_hover = false
                 }
             } else {
                 const num_cells = game_service.get_ship_length(this.ships_to_place[0])
-                for ( let i = cell_i + 1; i < cell_i + num_cells; i += 1 ) {
+                for ( let i = cell_i + 1; i &lt; cell_i + num_cells; i += 1 ) {
                     ghost_cells.push([row_i, i])
                     if ( i > 8 ) is_valid_hover = false
                 }
             }
 
             // Don't allow placing on existing ships
-            is_valid_hover = is_valid_hover && !ghost_cells.some(([row_i, col_i]) => this.is_ship_cell(row_i, col_i))
+            is_valid_hover = is_valid_hover &amp;&amp; !ghost_cells.some(([row_i, col_i]) => this.is_ship_cell(row_i, col_i))
 
             if ( is_valid_hover ) {
                 this.ship_ghost_cells = ghost_cells
@@ -186,7 +214,7 @@ class GameBoardComponent extends Component {
      * @return {boolean}
      */
     is_ship_cell(row_i, col_i) {
-        return this.rows[row_i] && this.rows[row_i][col_i] && isShipCell(this.rows[row_i][col_i].render)
+        return this.rows[row_i] &amp;&amp; this.rows[row_i][col_i] &amp;&amp; isShipCell(this.rows[row_i][col_i].render)
     }
 
     /**
@@ -203,7 +231,7 @@ class GameBoardComponent extends Component {
      * @return {boolean}
      */
     is_ghost_cell(row_i, col_i) {
-        return !!this.ship_ghost_cells.find(([cell_row_i, cell_col_i]) => cell_row_i === row_i && cell_col_i === col_i)
+        return !!this.ship_ghost_cells.find(([cell_row_i, cell_col_i]) => cell_row_i === row_i &amp;&amp; cell_col_i === col_i)
     }
 
     /**
@@ -234,3 +262,26 @@ class GameBoardComponent extends Component {
 }
 
 export default GameBoardComponent
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-errors.html">errors</a></li><li><a href="module-lang.html">lang</a></li><li><a href="module-sounds.html">sounds</a></li><li><a href="module-util.html">util</a></li></ul><h3>Classes</h3><ul><li><a href="GameBoardComponent.html">GameBoardComponent</a></li><li><a href="GameStateService.html">GameStateService</a></li><li><a href="GridCellComponent.html">GridCellComponent</a></li><li><a href="module-errors.InvalidAdvanceStateError.html">InvalidAdvanceStateError</a></li><li><a href="module-errors.InvalidMissileFireAttemptError.html">InvalidMissileFireAttemptError</a></li><li><a href="module-errors.InvalidShipPlacementError.html">InvalidShipPlacementError</a></li><li><a href="module-sounds-Sound.html">Sound</a></li><li><a href="ScoreBoardComponent.html">ScoreBoardComponent</a></li><li><a href="TopLevelComponent.html">TopLevelComponent</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Sat Sep 12 2020 16:40:09 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

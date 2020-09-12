@@ -1,84 +1,112 @@
-import {Component} from '../../lib/vues6.js'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/TopLevel.component.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/TopLevel.component.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {Component} from '../../lib/vues6.js'
 import {GameState, ShipType} from '../module/util.js'
 import {instructions} from '../module/lang.js'
 import game_service from '../services/GameState.service.js'
 import {GameSounds} from '../module/sounds.js'
 
 const template = `
-<div class="top-level-container">
-    <div class="top-level-component">
-        <div v-if="current_state === GameState.ChoosingNumberOfShips" class="game-choose-ships-container">
-            <span v-if="instructions">{{ instructions }}</span>
-            <div style="margin-top: 30px;">
-                <button @click="ship(1)" class="shipBtn">1 ship</button>
-                <button @click="ship(2)" class="shipBtn">2 ships</button>
-                <button @click="ship(3)" class="shipBtn">3 ships</button>
-                <button @click="ship(4)" class="shipBtn">4 ships</button>
-                <button @click="ship(5)" class="shipBtn">5 ships</button>
-            </div>
-        </div>
-        <div v-if="current_state === GameState.PromptPlayerChange" class="game-player-change-container">
+&lt;div class="top-level-container">
+    &lt;div class="top-level-component">
+        &lt;div v-if="current_state === GameState.ChoosingNumberOfShips" class="game-choose-ships-container">
+            &lt;span v-if="instructions">{{ instructions }}&lt;/span>
+            &lt;div style="margin-top: 30px;">
+                &lt;button @click="ship(1)" class="shipBtn">1 ship&lt;/button>
+                &lt;button @click="ship(2)" class="shipBtn">2 ships&lt;/button>
+                &lt;button @click="ship(3)" class="shipBtn">3 ships&lt;/button>
+                &lt;button @click="ship(4)" class="shipBtn">4 ships&lt;/button>
+                &lt;button @click="ship(5)" class="shipBtn">5 ships&lt;/button>
+            &lt;/div>
+        &lt;/div>
+        &lt;div v-if="current_state === GameState.PromptPlayerChange" class="game-player-change-container">
             It is now {{ current_player_display }}'s turn!
-            <button @click="confirm_player_change" class="playerBtn">Continue</button>
-        </div>
-        <div
-            v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange && instructions"
+            &lt;button @click="confirm_player_change" class="playerBtn">Continue&lt;/button>
+        &lt;/div>
+        &lt;div
+            v-if="current_state !== GameState.ChoosingNumberOfShips &amp;&amp; current_state !== GameState.PromptPlayerChange &amp;&amp; instructions"
             class="instructions"
         >
             {{ instructions.replace('{player}', current_player_display) }}
-        </div>
-        <div
+        &lt;/div>
+        &lt;div
             v-if="current_state !== GameState.ChoosingNumberOfShips
-                    && current_state !== GameState.PromptPlayerChange
-                    && current_state !== GameState.PlayerVictory"
+                    &amp;&amp; current_state !== GameState.PromptPlayerChange
+                    &amp;&amp; current_state !== GameState.PlayerVictory"
             class="game-boards-container"
         >
-            <!-- Opponent's board -->
-            <div class="game-board">
-                <app-game-board
+            &lt;!-- Opponent's board -->
+            &lt;div class="game-board">
+                &lt;app-game-board
                     v-bind:rows="opponent_rows"
                     v-bind:is_missile_mode="player_is_firing_missiles"
                     @missilefired="on_missile_fired"
-                ></app-game-board>
-                <div class="fleet-label">Opposing fleet</div>
-            </div>
+                >&lt;/app-game-board>
+                &lt;div class="fleet-label">Opposing fleet&lt;/div>
+            &lt;/div>
     
-            <!-- Player's board -->
-            <div class="game-board">
-                <app-game-board
+            &lt;!-- Player's board -->
+            &lt;div class="game-board">
+                &lt;app-game-board
                     v-bind:rows="player_rows"
                     v-bind:is_placement_mode="player_is_placing_ships"
                     v-bind:ships_to_place="ships_to_place"
                     @shipplaced="on_ship_placed"
-                ></app-game-board>
-                <div class="fleet-label">Your fleet</div>
-            </div>
-        </div>
-        <div
+                >&lt;/app-game-board>
+                &lt;div class="fleet-label">Your fleet&lt;/div>
+            &lt;/div>
+        &lt;/div>
+        &lt;div
             v-if="current_state === GameState.PlayerVictory"
             class="game-boards-container"
         >
-            <!-- Winner's board -->
-            <div class="game-board">
-                <app-game-board
+            &lt;!-- Winner's board -->
+            &lt;div class="game-board">
+                &lt;app-game-board
                     v-bind:rows="player_rows"
-                ></app-game-board>
-                <div class="fleet-label">{{ current_player_display }}'s fleet (winner)</div>
-            </div>
+                >&lt;/app-game-board>
+                &lt;div class="fleet-label">{{ current_player_display }}'s fleet (winner)&lt;/div>
+            &lt;/div>
     
-            <!-- Loser's board -->
-            <div class="game-board">
-                <app-game-board
+            &lt;!-- Loser's board -->
+            &lt;div class="game-board">
+                &lt;app-game-board
                     v-bind:rows="opponent_rows"
-                ></app-game-board>
-                <div class="fleet-label">{{ current_opponent_display }}'s fleet</div>
-            </div>
-        </div>
-    </div>
-    <div class="scoreboard-container">
-        <app-scoreboard></app-scoreboard>
-    </div>
-</div>
+                >&lt;/app-game-board>
+                &lt;div class="fleet-label">{{ current_opponent_display }}'s fleet&lt;/div>
+            &lt;/div>
+        &lt;/div>
+    &lt;/div>
+    &lt;div class="scoreboard-container">
+        &lt;app-scoreboard>&lt;/app-scoreboard>
+    &lt;/div>
+&lt;/div>
 `
 
 /**
@@ -152,13 +180,13 @@ class TopLevelComponent extends Component {
 
     /**
      * Called when the component is initialized.
-     * @return {Promise<void>}
+     * @return {Promise&lt;void>}
      */
     async vue_on_create() {
         this.current_state = game_service.get_game_state()
 
         // Called every time the game state is updated
-        game_service.on_state_change( async (next_state, was_refresh) => {
+        game_service.on_state_change((next_state, was_refresh) => {
             this.current_state = next_state
             this.opponent_rows = game_service.get_current_opponent_state()
             this.player_rows = game_service.get_current_player_state()
@@ -167,12 +195,11 @@ class TopLevelComponent extends Component {
 
             this.player_is_placing_ships = next_state === GameState.PlayerSetup
             this.player_is_firing_missiles = next_state === GameState.PlayerTurn
-            if ( !was_refresh && this.player_is_placing_ships ) {
+            if ( !was_refresh &amp;&amp; this.player_is_placing_ships ) {
                 this.ships_to_place = game_service.get_possible_boats()
             }
 
             if ( next_state === GameState.PlayerVictory ) {
-                await GameSounds.Victory.play()
                 const [victor_state, loser_state] = game_service.get_player_victory_state()
                 this.player_rows = victor_state
                 this.opponent_rows = loser_state
@@ -196,7 +223,7 @@ class TopLevelComponent extends Component {
      */
     on_ship_placed() {
         this.ships_to_place.shift()
-        if ( this.ships_to_place.length < 1 ) {
+        if ( this.ships_to_place.length &lt; 1 ) {
             // We've placed all the ships. Let's move on.
             game_service.advance_game_state()
         }
@@ -231,3 +258,26 @@ class TopLevelComponent extends Component {
 }
 
 export default TopLevelComponent
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-errors.html">errors</a></li><li><a href="module-lang.html">lang</a></li><li><a href="module-sounds.html">sounds</a></li><li><a href="module-util.html">util</a></li></ul><h3>Classes</h3><ul><li><a href="GameBoardComponent.html">GameBoardComponent</a></li><li><a href="GameStateService.html">GameStateService</a></li><li><a href="GridCellComponent.html">GridCellComponent</a></li><li><a href="module-errors.InvalidAdvanceStateError.html">InvalidAdvanceStateError</a></li><li><a href="module-errors.InvalidMissileFireAttemptError.html">InvalidMissileFireAttemptError</a></li><li><a href="module-errors.InvalidShipPlacementError.html">InvalidShipPlacementError</a></li><li><a href="module-sounds-Sound.html">Sound</a></li><li><a href="ScoreBoardComponent.html">ScoreBoardComponent</a></li><li><a href="TopLevelComponent.html">TopLevelComponent</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Sat Sep 12 2020 16:40:09 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

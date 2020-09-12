@@ -14,7 +14,12 @@ const template = `
 
 </div>
 `
-export default class GridCellComponent extends Component {
+
+/**
+ * A component which represents a single, programmable grid cell.
+ * @extends Component
+ */
+class GridCellComponent extends Component {
     static get selector() { return 'app-game-cell' }
     static get template() { return template }
 
@@ -29,15 +34,27 @@ export default class GridCellComponent extends Component {
     /** Make the "GridCellState" enum available in the template. */
     GridCellState = GridCellState
 
+    /**
+     * Fire a click event.
+     */
     on_click() {
         this.$emit('click')
     }
 
+    /**
+     * Fire a hover event.
+     * @param $event
+     */
     on_hover($event) {
         this.$emit('hover', $event)
     }
 
+    /**
+     * Fire a "hoverchange" event.
+     */
     on_mouse_leave() {
         this.$emit('hoverchange')
     }
 }
+
+export default GridCellComponent

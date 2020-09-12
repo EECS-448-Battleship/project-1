@@ -1,3 +1,5 @@
+/** @module sounds */
+
 import { appUrl } from './util.js'
 
 /**
@@ -42,13 +44,15 @@ class Sound {
     }
 }
 
+/**
+ * Enum of the various sound effects available in the game.
+ * @type {object}
+ */
 const GameSounds = {
     Victory: new Sound(appUrl('/lib/sounds/cartoon_success_fanfair.mp3')),
     Fire: new Sound(appUrl('/lib/sounds/zapsplat_warfare_mortar_projectile_launch_002_25232.mp3')),
     Hit: new Sound(appUrl('/lib/sounds/zapsplat_warfare_bomb_whizz_in_hit_close_by_explosion_med_003_48060.mp3')),
     Miss: new Sound(appUrl('/lib/sounds/zapsplat_nature_water_pour_medium_amount_deep_sudden_fast_002_52765.mp3')),
 }
-
-console.log(GameSounds)
 
 export { GameSounds }

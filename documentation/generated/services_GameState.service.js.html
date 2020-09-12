@@ -1,4 +1,32 @@
-import { Player, GridCellState, GameState, clone, ShipType, isShipType, isShipCell, isValidTargetCell } from '../module/util.js'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: services/GameState.service.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: services/GameState.service.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Player, GridCellState, GameState, clone, ShipType, isShipType, isShipCell, isValidTargetCell } from '../module/util.js'
 import { InvalidShipPlacementError, InvalidAdvanceStateError, InvalidMissileFireAttemptError } from '../module/errors.js'
 
 /**
@@ -62,7 +90,7 @@ export class GameStateService {
      * @return none
      */
     set_n_boats(number){
-        if(number >= 1 && number <= 5 )
+        if(number >= 1 &amp;&amp; number &lt;= 5 )
         {
             this.n_boats = number;
         }
@@ -220,7 +248,7 @@ export class GameStateService {
      */
     get_player_score(player) {
         let score = 0
-        this.player_x_game_board[this.get_other_player(player)].some(row => {
+        this.player_x_game_board[player].some(row => {
             row.some(cell => {
                 if ( cell.render === GridCellState.Damaged || cell.render === GridCellState.Sunk ) {
                     score += 1
@@ -239,7 +267,7 @@ export class GameStateService {
      */
     get_boat_count(player){
         let boat_count = 0
-        this.player_x_game_board[this.get_other_player(player)].some(row => {
+        this.player_x_game_board[player].some(row => {
             row.some(cell => {
                 if ( isShipCell(cell.render) ) {
                     boat_count += 1
@@ -288,7 +316,7 @@ export class GameStateService {
          * 8) player win
          */
         if (this.current_state === GameState.ChoosingNumberOfShips) {
-            if (this.n_boats >= 1 && this.n_boats <= 5) {
+            if (this.n_boats >= 1 &amp;&amp; this.n_boats &lt;= 5) {
                 this.current_state = GameState.PromptPlayerChange;
                 this.post_player_change_state = GameState.PlayerSetup;
                 this.current_player = Player.One;
@@ -323,7 +351,7 @@ export class GameStateService {
                 }
             }
         }
-        else if (this.current_state === GameState.PlayerTurn && this.current_player === Player.One) {
+        else if (this.current_state === GameState.PlayerTurn &amp;&amp; this.current_player === Player.One) {
             if (this.current_turn_had_missile_attempt === true) {
                 this.current_state = GameState.PromptPlayerChange;
                 this.post_player_change_state = GameState.PlayerTurn;
@@ -334,7 +362,7 @@ export class GameStateService {
                 throw new InvalidAdvanceStateError("the player has not fired a missle");
             }
         }
-        else if (this.current_state === GameState.PlayerTurn && this.current_player === Player.Two) {
+        else if (this.current_state === GameState.PlayerTurn &amp;&amp; this.current_player === Player.Two) {
             if (this.current_turn_had_missile_attempt === true) {
                 this.current_state = GameState.PromptPlayerChange;
                 this.post_player_change_state = GameState.PlayerTurn;
@@ -559,7 +587,7 @@ export class GameStateService {
         // Make sure none of the placement cells overlap with existing ships
         const has_overlap = ship_cells.some(([ship_row, ship_col]) => {
             return placement_cells.some(([placement_row, placement_col]) => {
-                return ship_row === placement_row && ship_col === placement_col
+                return ship_row === placement_row &amp;&amp; ship_col === placement_col
             })
         })
 
@@ -610,7 +638,7 @@ export class GameStateService {
         const player_1_ship_cells = this.get_ship_cells(player_1)
         const player_1_loses = (
             (player_1_ship_cells.length > 0)
-            && player_1_ship_cells.every(cell => this._get_cell_state(player_1, cell[0], cell[1]).render === GridCellState.Sunk)
+            &amp;&amp; player_1_ship_cells.every(cell => this._get_cell_state(player_1, cell[0], cell[1]).render === GridCellState.Sunk)
         )
         if ( player_1_loses ) return player_2
 
@@ -619,9 +647,9 @@ export class GameStateService {
         const player_2_ship_cells = this.get_ship_cells(player_2)
         const player_2_loses = (
             (player_2_ship_cells.length > 0)
-            && player_2_ship_cells.every(cell => this._get_cell_state(player_2, cell[0], cell[1]).render === GridCellState.Sunk)
+            &amp;&amp; player_2_ship_cells.every(cell => this._get_cell_state(player_2, cell[0], cell[1]).render === GridCellState.Sunk)
         )
-        if ( player_2_loses ) return player_1
+        if ( player_2_loses ) return player_2
     }
 
     /**
@@ -707,3 +735,26 @@ export class GameStateService {
 // import game_service from './services/GameState.service.js'
 const game_service = new GameStateService()
 export default game_service
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-errors.html">errors</a></li><li><a href="module-lang.html">lang</a></li><li><a href="module-sounds.html">sounds</a></li><li><a href="module-util.html">util</a></li></ul><h3>Classes</h3><ul><li><a href="GameBoardComponent.html">GameBoardComponent</a></li><li><a href="GameStateService.html">GameStateService</a></li><li><a href="GridCellComponent.html">GridCellComponent</a></li><li><a href="module-errors.InvalidAdvanceStateError.html">InvalidAdvanceStateError</a></li><li><a href="module-errors.InvalidMissileFireAttemptError.html">InvalidMissileFireAttemptError</a></li><li><a href="module-errors.InvalidShipPlacementError.html">InvalidShipPlacementError</a></li><li><a href="module-sounds-Sound.html">Sound</a></li><li><a href="ScoreBoardComponent.html">ScoreBoardComponent</a></li><li><a href="TopLevelComponent.html">TopLevelComponent</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Sat Sep 12 2020 16:40:09 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
