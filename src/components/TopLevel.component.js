@@ -162,6 +162,12 @@ export default class TopLevelComponent extends Component {
                 this.ships_to_place = game_service.get_possible_boats()
             }
 
+            if ( next_state === GameState.PlayerVictory ) {
+                const [victor_state, loser_state] = game_service.get_player_victory_state()
+                this.player_rows = victor_state
+                this.opponent_rows = loser_state
+            }
+
             this.instructions = instructions[this.current_state]
         })
     }

@@ -203,6 +203,11 @@ export class GameStateService {
         })
     }
 
+    /**
+     * Get the states that should be shown on the victory screen.
+     * First element is the winner's state, second element is the loser's state.
+     * @return {object[][][]}
+     */
     get_player_victory_state(){
       return [clone(this.player_x_game_board[this.current_player]), clone(this.player_x_game_board[this.current_opponent])]
     }
