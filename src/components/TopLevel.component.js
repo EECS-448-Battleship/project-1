@@ -1,12 +1,13 @@
 import {Component} from '../../lib/vues6.js'
 import {GameState, ShipType} from '../module/util.js'
+import {instructions} from '../module/lang.js'
 import game_service from '../services/GameState.service.js'
 
 const template = `
 <div class="top-level-container">
     <div class="top-level-component">
         <div v-if="current_state === GameState.ChoosingNumberOfShips" class="game-choose-ships-container">
-            Choose number of ships:
+            <span v-if="instructions">{{ instructions }}</span>
             <div style="margin-top: 30px;">
                 <button @click="ship(1)" class="shipBtn">1 ship</button>
                 <button @click="ship(2)" class="shipBtn">2 ships</button>
@@ -18,6 +19,12 @@ const template = `
         <div v-if="current_state === GameState.PromptPlayerChange" class="game-player-change-container">
             It is now {{ current_player_display }}'s turn!
             <button @click="confirm_player_change" class="playerBtn">Continue</button>
+        </div>
+        <div
+            v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange && instructions"
+            class="instructions"
+        >
+            {{ instructions }}
         </div>
         <div
             v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange"
@@ -79,7 +86,7 @@ export default class TopLevelComponent extends Component {
      * The current instructions to be shown to the user.
      * @type {string}
      */
-    instructions = ''
+    instructions = instructions[GameState.ChoosingNumberOfShips]
 
     /**
      * True if the player should be able to place their ships.
@@ -113,7 +120,7 @@ export default class TopLevelComponent extends Component {
                 this.ships_to_place = game_service.get_possible_boats()
             }
 
-            // TODO add code for instructions
+            this.instructions = instructions[this.current_state]
         })
     }
 

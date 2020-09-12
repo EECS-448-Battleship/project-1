@@ -95,6 +95,11 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+}
+
+.top-level-component .instructions {
+    margin: 20px;
 }
 
 .app-scoreboard-component {
