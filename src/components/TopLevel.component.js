@@ -164,7 +164,7 @@ class TopLevelComponent extends Component {
         this.current_state = game_service.get_game_state()
 
         // Called every time the game state is updated
-        game_service.on_state_change((next_state, was_refresh) => {
+        game_service.on_state_change( async (next_state, was_refresh) => {
             this.current_state = next_state
             this.opponent_rows = game_service.get_current_opponent_state()
             this.player_rows = game_service.get_current_player_state()
@@ -178,6 +178,7 @@ class TopLevelComponent extends Component {
             }
 
             if ( next_state === GameState.PlayerVictory ) {
+                await GameSounds.Victory.play()
                 const [victor_state, loser_state] = game_service.get_player_victory_state()
                 this.player_rows = victor_state
                 this.opponent_rows = loser_state
