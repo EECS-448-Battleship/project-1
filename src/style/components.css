@@ -97,9 +97,73 @@ p {
     justify-content: center;
 }
 
+/*******************************************
+************** SCOREBOARD CSS **************
+********************************************/
+
 .app-scoreboard-component {
 
 }
+
+.scoreboard_table {
+    border-collapse: collapse;
+    text-align: center;
+    margin: auto;
+    font-size: 0.9em;
+    min-width: 400px;
+    font-weight: bold;
+    font-family:'Roboto',sans-serif;
+    border-radius: 15px 15px 7px 7px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.70);
+}
+
+.scoreboard_table_header {
+    padding: 30px;
+    background-color: #204a61;
+    color: #ffffff;
+    border-bottom: 1px solid #dddddd;
+    font-size: 17px;
+}
+
+.scoreboard_header_scoreProgress {
+    border-collapse: collapse;
+    padding: 15px;
+    border-bottom: 1px solid #dddddd;
+    background-color: #f3f3f3;
+    color: #204a61;
+}
+.scoreboard_emptyCells {
+    background-color: #333333;
+}
+
+.scoreboard_scoreProgress {
+    border-collapse: collapse;
+    padding: 15px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.scoreboard_player {
+    border-collapse: collapse;
+    padding: 15px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.scoreboard_lastRow {
+    border-collapse: collapse;
+    padding: 15px;
+    border-bottom: 5px solid #204a61;
+}
+
+.scoreboard_data {
+    border-collapse: collapse;
+    padding: 15px;
+    border-bottom: 1px solid #dddddd;
+}
+
+/*******************************************
+************** END SCOREBOARD CSS **************
+********************************************/
 
 .game-player-change-container, .game-choose-ships-container {
     height: calc(40px * 9);
