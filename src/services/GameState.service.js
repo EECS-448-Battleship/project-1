@@ -350,6 +350,7 @@ export class GameStateService {
         if(winner) {
             this.current_state = GameState.PlayerVictory;
             this.current_player = winner;
+            this.current_opponent = this.get_other_player(winner);
         }
 
         this.current_turn_had_missile_attempt = false
