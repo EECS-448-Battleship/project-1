@@ -2,6 +2,7 @@ import {Component} from '../../lib/vues6.js'
 import {GameState, ShipType} from '../module/util.js'
 import {instructions} from '../module/lang.js'
 import game_service from '../services/GameState.service.js'
+import {GameSounds} from '../module/sounds.js'
 
 const template = `
 <div class="top-level-container">
