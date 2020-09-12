@@ -170,12 +170,14 @@ export default class TopLevelComponent extends Component {
      * @param {number} column_index
      */
     on_missile_fired([row_index, column_index]) {
-        game_service.attempt_missile_fire([row_index, column_index])
+        if ( this.player_is_firing_missiles ) {
+            game_service.attempt_missile_fire([row_index, column_index])
 
-        // Give the user time to see whether they hit or not
-        setTimeout(() => {
-            game_service.advance_game_state()
-        }, 5000)
+            // Give the user time to see whether they hit or not
+            setTimeout(() => {
+                game_service.advance_game_state()
+            }, 5000)
+        }
     }
 
     /**
