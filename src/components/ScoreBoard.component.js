@@ -4,7 +4,27 @@ import {Player} from '../module/util.js'
 
 const template = `
 <div class="app-scoreboard-component">
-    Scoreboard Goes Here {{ player_one_score }}
+        <table class="scoreboard_table" style="width:50%">
+        <tr class="scoreboard_rows">
+            <th class="scoreboard_table_empty"></th>
+            <th class="scoreboard_table_header" colspan="3">scoreboard</th>
+        </tr>
+        <tr class="scoreboard_header_scoreProgress">
+            <th class="scoreboard_table_empty"></th>
+            <td class="scoreboard_data">score</td>
+            <td class="scoreboard_data">progress</td>
+        </tr>
+        <tr class="scoreboard_rows_score&progress">
+            <td class="scoreboard_player">player_1</td>
+            <td class="scoreboard_data">{{player_one_score}}</td>
+            <td class="scoreboard_data">{{player_one_progress}}</td>
+        </tr>
+        <tr class="scoreboard_lastRow">
+            <td class="scoreboard_player">player_2</td>
+            <td class="scoreboard_data">{{player_one_score}}</td>
+            <td class="scoreboard_data">{{player_two_progress}}</td>
+        </tr>
+    </table>
 </div>
 `
 export default class ScoreBoardComponent extends Component {
