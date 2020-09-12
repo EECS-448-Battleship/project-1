@@ -203,6 +203,10 @@ export class GameStateService {
         })
     }
 
+    get_player_victory_state(){
+      return [clone(this.player_x_game_board[this.current_player]), clone(this.player_x_game_board[this.current_opponent])]
+    }
+
     /**
      * get the "score" (the number of hits) that the
      * current player has (counting sunk ships)
