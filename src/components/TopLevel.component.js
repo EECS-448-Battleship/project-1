@@ -13,7 +13,14 @@ const template = `
             <button @click="ship(4)" class="shipBtn">4 ships</button>
             <button @click="ship(5)" class="shipBtn">5 ships</button>
         </div>
-        <div v-if="current_state !== GameState.ChoosingNumberOfShips" class="game-boards-container">
+        <div v-if="current_state === GameState.PromptPlayerChange">
+            It is now {{ current_player_display }}'s turn!
+            <button @click="confirm_player_change" class="shipBtn">Continue</button>
+        </div>
+        <div
+            v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange"
+            class="game-boards-container"
+        >
             <!-- Opponent's board -->
             <div class="game-board">
                 <app-game-board v-bind:rows="opponent_rows"></app-game-board>
@@ -82,6 +89,9 @@ export default class TopLevelComponent extends Component {
      */
     ships_to_place = []
 
+    current_player_display = ''
+    current_opponent_display = ''
+
     async vue_on_create() {
         console.log('game service', game_service)
         this.current_state = game_service.get_game_state()
@@ -91,6 +101,8 @@ export default class TopLevelComponent extends Component {
             this.current_state = next_state
             this.opponent_rows = game_service.get_current_opponent_state()
             this.player_rows = game_service.get_current_player_state()
+            this.current_player_display = game_service.get_player_display(game_service.get_current_player())
+            this.current_opponent_display = game_service.get_player_display(game_service.get_current_opponent())
 
             this.player_is_placing_ships = next_state === GameState.PlayerSetup
             if ( !was_refresh && this.player_is_placing_ships ) {
@@ -119,5 +131,9 @@ export default class TopLevelComponent extends Component {
             // We've placed all the ships. Let's move on.
             game_service.advance_game_state()
         }
+    }
+
+    confirm_player_change() {
+        game_service.advance_game_state()
     }
 }
