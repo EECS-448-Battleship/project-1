@@ -68,21 +68,21 @@ export class GameStateService {
         }
     }
 
-    get_possible_boats(number){
-      if (get_n_boats == 1) {
-          return (ships:x1)
+    get_possible_boats(){
+      if (this.get_n_boats() === 1) {
+          return [ShipType.x1]
       }
-      if (get_n_boats == 2) {
-          return (ships:x1, x2)
+      else if (this.get_n_boats() === 2) {
+          return [ShipType.x1, ShipType.x2]
       }
-      if (get_n_boats == 3) {
-          return (ships:x1, x2, x3)
+      else if (this.get_n_boats() === 3) {
+          return [ShipType.x1, ShipType.x2, ShipType.x3]
       }
-      if (get_n_boats == 4) {
-          return (ships:x1, x2, x3,x4)
+      else if (this.get_n_boats() === 4) {
+          return [ShipType.x1, ShipType.x2, ShipType.x3, ShipType.x4]
       }
-      if (get_n_boats == 5) {
-          return (ships:x1, x2, x3, x4, x5)
+      else if (this.get_n_boats() === 5) {
+          return [ShipType.x1, ShipType.x2, ShipType.x3, ShipType.x4, ShipType.x5]
       }
     }
     /**

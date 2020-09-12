@@ -56,10 +56,6 @@ export default class GameBoardComponent extends Component {
      * @type {string[]}
      */
     column_labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
     /**
      * Array of coordinates as [row_index, column_index] of cells which should
@@ -107,7 +103,6 @@ export default class GameBoardComponent extends Component {
         window.removeEventListener('keydown', keydown_fn)
     }
 
-<<<<<<< Updated upstream
     on_cell_click(row_i, cell_i) {
         if ( this.is_placement_mode && this.ships_to_place[0] ) {
             // We should try to place a ship here
@@ -215,7 +210,4 @@ export default class GameBoardComponent extends Component {
             }
         }
     }
-=======
-    
->>>>>>> Stashed changes
 }
