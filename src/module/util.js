@@ -112,3 +112,13 @@ export function clone(obj) {
     }
     return copy
 }
+
+/**
+ * Generate an absolute URL to a file w/in the project directory.
+ * @param {string} path
+ * @return {string}
+ */
+export function appUrl(path) {
+    if ( path.startsWith('/') ) path = path.slice(1)
+    return `${APP_BASE_PATH}${path}`
+}

@@ -198,9 +198,13 @@ export default class TopLevelComponent extends Component {
      * @param {number} row_index
      * @param {number} column_index
      */
-    on_missile_fired([row_index, column_index]) {
+    async on_missile_fired([row_index, column_index]) {
         if ( this.player_is_firing_missiles ) {
-            game_service.attempt_missile_fire([row_index, column_index])
+            await GameSounds.Fire.play()
+            const success = game_service.attempt_missile_fire([row_index, column_index])
+
+            if ( success ) await GameSounds.Hit.play()
+            else await GameSounds.Miss.play()
 
             // Give the user time to see whether they hit or not
             setTimeout(() => {

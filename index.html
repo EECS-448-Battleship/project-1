@@ -18,6 +18,13 @@
             <app-top-level></app-top-level>
         </div>
 
+        <script>
+            let loc = window.location.href
+            if ( loc.endsWith('index.html') ) loc = loc.slice(0, -('index.html').length)
+            if ( !loc.endsWith('/') ) loc = `${loc}/`
+
+            window.APP_BASE_PATH = loc
+        </script>
         <script src="./lib/vue-2.6.11.js"></script>
         <script src="./lib/vues6.js" type="module"></script>
         <script src="./src/module/start.js" type="module"></script>

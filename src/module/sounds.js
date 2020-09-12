@@ -1,3 +1,5 @@
+import { appUrl } from './util.js'
+
 /**
  * A thin wrapper for sound effects.
  */
@@ -23,8 +25,13 @@ class Sound {
     /**
      * Start playing the sound.
      */
-    play() {
-        this.sound.play()
+    async play() {
+        const duration = this.sound.duration
+
+        await this.sound.play()
+        await new Promise(res => {
+            setTimeout(res, duration * 1000)
+        })
     }
 
     /**
@@ -36,11 +43,12 @@ class Sound {
 }
 
 const GameSounds = {
-    Victory: new Sound('/lib/sounds/cartoon_success_fanfair.mp3'),
-    Fire: new Sound('/lib/sounds/zapsplat_warfare_mortar_projectile_launch_002_25232.mp3'),
-    Hit: new Sound('/lib/sounds/zapsplat_warfare_bomb_whizz_in_hit_close_by_explosion_med_003_48060.mp3'),
-    Miss: new Sound('/lib/sounds/zapsplat_nature_water_pour_medium_amount_deep_sudden_fast_002_52765.mp3'),
+    Victory: new Sound(appUrl('/lib/sounds/cartoon_success_fanfair.mp3')),
+    Fire: new Sound(appUrl('/lib/sounds/zapsplat_warfare_mortar_projectile_launch_002_25232.mp3')),
+    Hit: new Sound(appUrl('/lib/sounds/zapsplat_warfare_bomb_whizz_in_hit_close_by_explosion_med_003_48060.mp3')),
+    Miss: new Sound(appUrl('/lib/sounds/zapsplat_nature_water_pour_medium_amount_deep_sudden_fast_002_52765.mp3')),
 }
 
+console.log(GameSounds)
 
 export { GameSounds }
