@@ -5,17 +5,19 @@ import game_service from '../services/GameState.service.js'
 const template = `
 <div class="top-level-container">
     <div class="top-level-component">
-        <div v-if="current_state === GameState.ChoosingNumberOfShips">
+        <div v-if="current_state === GameState.ChoosingNumberOfShips" class="game-choose-ships-container">
             Choose number of ships:
-            <button @click="ship(1)" class="shipBtn">1 ship</button>
-            <button @click="ship(2)" class="shipBtn">2 ships</button>
-            <button @click="ship(3)" class="shipBtn">3 ships</button>
-            <button @click="ship(4)" class="shipBtn">4 ships</button>
-            <button @click="ship(5)" class="shipBtn">5 ships</button>
+            <div style="margin-top: 30px;">
+                <button @click="ship(1)" class="shipBtn">1 ship</button>
+                <button @click="ship(2)" class="shipBtn">2 ships</button>
+                <button @click="ship(3)" class="shipBtn">3 ships</button>
+                <button @click="ship(4)" class="shipBtn">4 ships</button>
+                <button @click="ship(5)" class="shipBtn">5 ships</button>
+            </div>
         </div>
-        <div v-if="current_state === GameState.PromptPlayerChange">
+        <div v-if="current_state === GameState.PromptPlayerChange" class="game-player-change-container">
             It is now {{ current_player_display }}'s turn!
-            <button @click="confirm_player_change" class="shipBtn">Continue</button>
+            <button @click="confirm_player_change" class="playerBtn">Continue</button>
         </div>
         <div
             v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange"
@@ -24,6 +26,7 @@ const template = `
             <!-- Opponent's board -->
             <div class="game-board">
                 <app-game-board v-bind:rows="opponent_rows"></app-game-board>
+                <div class="fleet-label">Opposing fleet</div>
             </div>
     
             <!-- Player's board -->
@@ -34,6 +37,7 @@ const template = `
                     v-bind:ships_to_place="ships_to_place"
                     @shipplaced="on_ship_placed"
                 ></app-game-board>
+                <div class="fleet-label">Your fleet</div>
             </div>
         </div>
     </div>
