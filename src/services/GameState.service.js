@@ -210,21 +210,16 @@ export class GameStateService {
      * @private
      */
     get_player_score(player) {
-        let i = 1;
-        let j = 1;
-        let score = 0;
-        for(i; i<=8; i++)
-        {
-            for(j; j<=8; j++)
-            {
-                let cell = this.player_x_game_board[this.get_other_player(player)][i][j];
-                if(cell.render === GridCellState.Damaged || cell.render === GridCellState.Sunk )
-                {
-                    score++;
+        let score = 0
+        this.player_x_game_board[player].some(row => {
+            row.some(cell => {
+                if ( cell.render === GridCellState.Damaged || cell.render === GridCellState.Sunk ) {
+                    score += 1
                 }
-            }
-        }
-        return(score);
+            })
+        })
+
+        return score
     }
 
     /**
@@ -234,21 +229,16 @@ export class GameStateService {
      * @private
      */
     get_boat_count(player){
-        let i = 1;
-        let j = 1;
-        let boat_count = 0;
-        for(i; i<=8; i++)
-        {
-            for(j; j<=8; j++)
-            {
-                let cell = this.player_x_game_board[this.get_other_player(player)][i][j];
-                if(cell.render === GridCellState.Damaged || cell.render === GridCellState.Sunk || cell.render === GridCellState.Ship )
-                {
-                    boat_count++;
+        let boat_count = 0
+        this.player_x_game_board[player].some(row => {
+            row.some(cell => {
+                if ( isShipCell(cell.render) ) {
+                    boat_count += 1
                 }
-            }
-        }
-        return(boat_count);
+            })
+        })
+
+        return boat_count
     }
 
     /**
@@ -257,7 +247,12 @@ export class GameStateService {
      * @private
      */
     get_progress(player){
-        return(this.get_player_score(player) / this.get_boat_count(player))
+        const boat_count = this.get_boat_count(player)
+        if ( boat_count !== 0 ) {
+            return (this.get_player_score(player) / boat_count).toFixed(2)
+        } else {
+            return 0
+        }
     }
 
     /**

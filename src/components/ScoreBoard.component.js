@@ -15,14 +15,14 @@ const template = `
             <td class="scoreboard_data">progress</td>
         </tr>
         <tr class="scoreboard_rows_score&progress">
-            <td class="scoreboard_player">player_1</td>
+            <td class="scoreboard_player">Player 1</td>
             <td class="scoreboard_data">{{player_one_score}}</td>
-            <td class="scoreboard_data">{{player_one_progress}}</td>
+            <td class="scoreboard_data">{{player_one_progress * 100}}%</td>
         </tr>
         <tr class="scoreboard_lastRow">
-            <td class="scoreboard_player">player_2</td>
-            <td class="scoreboard_data">{{player_one_score}}</td>
-            <td class="scoreboard_data">{{player_two_progress}}</td>
+            <td class="scoreboard_player">Player 2</td>
+            <td class="scoreboard_data">{{player_two_score}}</td>
+            <td class="scoreboard_data">{{player_two_progress * 100}}%</td>
         </tr>
     </table>
 </div>
