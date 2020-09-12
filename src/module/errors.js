@@ -1,3 +1,5 @@
+/** @module errors */
+
 /**
  * Placeholder class for an error that is thrown when a ship is placed
  * in an invalid position.

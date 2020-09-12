@@ -27,20 +27,58 @@ const template = `
     </table>
 </div>
 `
-export default class ScoreBoardComponent extends Component {
+
+/**
+ * A component which represents the programmable scoreboard.
+ * @extends Component
+ */
+class ScoreBoardComponent extends Component {
     static get selector() { return 'app-scoreboard' }
     static get template() { return template }
     static get props() { return [] }
 
+    /**
+     * The score of player one.
+     * @type {number}
+     */
     player_one_score = 0
+
+    /**
+     * The score of player two.
+     * @type {number}
+     */
     player_two_score = 0
+
+    /**
+     * The progress of player one, as a decimal.
+     * @type {number}
+     */
     player_one_progress = 0
+
+    /**
+     * The progress of player two, as a decimal.
+     * @type {number}
+     */
     player_two_progress = 0
+
+    /**
+     * The current player.
+     * @type {string|undefined}
+     */
     current_player = undefined
+
+    /**
+     * The winning player.
+     * @type {string|undefined}
+     */
     winning_player = undefined
 
     Player = Player
 
+    /**
+     * Called when the component is initialized.
+     * @return {Promise<void>}
+     */
     async vue_on_create() {
         game_service.on_state_change(() => {
             this.update()
@@ -49,6 +87,9 @@ export default class ScoreBoardComponent extends Component {
         this.update()
     }
 
+    /**
+     * Fetch new data from the game service.
+     */
     update() {
         // here is where you should fetch the data from the game service and update variables on the class
         this.player_one_score = game_service.get_player_score(Player.One)
@@ -64,3 +105,5 @@ export default class ScoreBoardComponent extends Component {
         }
     }
 }
+
+export default ScoreBoardComponent

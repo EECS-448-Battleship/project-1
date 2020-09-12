@@ -1,3 +1,5 @@
+/** @module lang **/
+
 import { GameState } from './util.js'
 
 /**

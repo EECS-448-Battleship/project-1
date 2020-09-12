@@ -39,7 +39,12 @@ const template  = `
     </div>
 </div>
 `
-export default class GameBoardComponent extends Component {
+
+/**
+ * A component which represents a single, programmable game board.
+ * @extends Component
+ */
+class GameBoardComponent extends Component {
     static get selector() { return 'app-game-board' }
     static get template() { return template }
     static get props() { return ['rows', 'is_placement_mode', 'ships_to_place', 'is_missile_mode'] }
@@ -60,7 +65,7 @@ export default class GameBoardComponent extends Component {
     /**
      * Array of coordinates as [row_index, column_index] of cells which should
      * show a ghost ship overlay.
-     * @type {[number, number][]}
+     * @type {number[]}
      */
     ship_ghost_cells = []
 
@@ -83,6 +88,10 @@ export default class GameBoardComponent extends Component {
      */
     bound_fns = []
 
+    /**
+     * Called when the component is initialized.
+     * @return {Promise<void>}
+     */
     async vue_on_create() {
         this.ready = true
 
@@ -96,6 +105,10 @@ export default class GameBoardComponent extends Component {
         window.addEventListener('keydown', keydown_fn)
     }
 
+    /**
+     * Called when the component is destroyed.
+     * @return {Promise<void>}
+     */
     async vue_on_destroy() {
         // Remove the event listeners for the shift key
         const [keyup_fn, keydown_fn] = this.bound_fns
@@ -103,6 +116,12 @@ export default class GameBoardComponent extends Component {
         window.removeEventListener('keydown', keydown_fn)
     }
 
+    /**
+     * Called when a user clicks a cell. If in placement mode, will attempt to place
+     * a ship. If in missile mode, will attempt to fire a missile.
+     * @param {number} row_i - the index of the row
+     * @param {number} cell_i - the index of the cell
+     */
     on_cell_click(row_i, cell_i) {
         if ( this.is_placement_mode && this.ships_to_place[0] ) {
             // We should try to place a ship here
@@ -213,3 +232,5 @@ export default class GameBoardComponent extends Component {
         }
     }
 }
+
+export default GameBoardComponent

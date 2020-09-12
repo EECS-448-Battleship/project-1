@@ -80,7 +80,12 @@ const template = `
     </div>
 </div>
 `
-export default class TopLevelComponent extends Component {
+
+/**
+ * Top-level component which manages the display of the entire game.
+ * @extends Component
+ */
+class TopLevelComponent extends Component {
     static get selector() { return 'app-top-level' }
     static get template() { return template }
     static get props() { return [] }
@@ -145,8 +150,11 @@ export default class TopLevelComponent extends Component {
      */
     current_opponent_display = ''
 
+    /**
+     * Called when the component is initialized.
+     * @return {Promise<void>}
+     */
     async vue_on_create() {
-        console.log('game service', game_service)
         this.current_state = game_service.get_game_state()
 
         // Called every time the game state is updated
@@ -220,3 +228,5 @@ export default class TopLevelComponent extends Component {
         game_service.advance_game_state()
     }
 }
+
+export default TopLevelComponent

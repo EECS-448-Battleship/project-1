@@ -1,3 +1,5 @@
+/** @module util */
+
 /**
  * Enum of all possible states of a grid cell.
  * @type {object}

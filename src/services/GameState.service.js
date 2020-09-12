@@ -22,7 +22,7 @@ export class GameStateService {
     /**
      * An array of all players. This is mostly for internal purposes.
      * @private
-     * @type {(string)[]}
+     * @type {string[]}
      */
     players = [Player.One, Player.Two]
 
@@ -71,7 +71,7 @@ export class GameStateService {
     /**
      * Given the number of boats set by the player (n_boats), return an array
      * of possible ShipTypes.
-     * @return {ShipType[]}
+     * @return {string[]}
      */
     get_possible_boats(){
         if (this.get_n_boats() === 1) {
@@ -115,7 +115,7 @@ export class GameStateService {
     /**
      * If the current state is the PromptPlayerChange, then this is
      * the state that we should move to next.
-     * @type {undefined|GameState}
+     * @type {undefined|string}
      */
     post_player_change_state = undefined
 
@@ -145,7 +145,7 @@ export class GameStateService {
     /**
      * Get the dimensions of the board as [rows, cols].
      * @example const [n_rows, n_cols] = game_service.get_dimensions()
-     * @return {[number, number]}
+     * @return {number[]}
      */
     get_dimensions() {
         return [this.n_rows, this.n_cols]
@@ -266,7 +266,7 @@ export class GameStateService {
 
     /**
      * Get the current game state.
-     * @return {GameState}
+     * @return {string}
      */
     get_game_state() {
         return clone(this.current_state)
@@ -275,7 +275,6 @@ export class GameStateService {
     /**
      * responsible for advancing the game state
      * will be consisting of
-     * @return
      */
     advance_game_state() {
         /** functions to be made that validate:
@@ -383,7 +382,7 @@ export class GameStateService {
      * If I want to fire a missile at row 5 column 7, then:
      * game_service.attempt_missile_fire([5, 7])
      *
-     * @param {[number, number]} coords
+     * @param {number[]} coords
      * @return {boolean}
      */
     attempt_missile_fire([target_row_i, target_col_i]) {
@@ -419,7 +418,7 @@ export class GameStateService {
     /**
      * Checks the player's ships. If any are fully damaged, it flags that ship's cells
      * as "sunk" rather than damaged.
-     * @param {Player} player
+     * @param {string} player
      * @private
      */
     _sink_damaged_ships(player) {
@@ -448,9 +447,9 @@ export class GameStateService {
      * to row 3 column 4, then I would call:
      * game_service.place_ship(ShipType.x3, [3,2], [3,4])
      *
-     * @param {ShipType} ship_type
-     * @param {[number, number]} coords_one
-     * @param {[number, number]} coords_two
+     * @param {string} ship_type
+     * @param {number[]} coords_one
+     * @param {number[]} coords_two
      */
     place_ship(ship_type, coords_one, coords_two) {
         // make sure the coordinates are valid for the given ship type
@@ -490,9 +489,9 @@ export class GameStateService {
      * game_service.get_covered_cells([1,1], [4,1])
      * Which would return [[1,1], [2,1], [3,1], [4,1]].
      *
-     * @param {[number, number]} coords_one
-     * @param {[number, number]} coords_two
-     * @return {[number, number][]}
+     * @param {number[]} coords_one
+     * @param {number[]} coords_two
+     * @return {number[][]}
      */
     get_covered_cells(coords_one, coords_two) {
         const [row_one, col_one] = coords_one
@@ -522,9 +521,9 @@ export class GameStateService {
      * to row 3 column 4, then I would call:
      * game_service.validate_coordinates(ShipType.x3, [3,2], [3,4])
      *
-     * @param {ShipType} ship_type
-     * @param {[number, number]} coords_one
-     * @param {[number, number]} coords_two
+     * @param {string} ship_type
+     * @param {number[]} coords_one
+     * @param {number[]} coords_two
      */
     validate_coordinates(ship_type, coords_one, coords_two) {
         if ( !isShipType(ship_type) ) throw new InvalidShipPlacementError('Invalid ship type: '+ship_type)
@@ -570,7 +569,7 @@ export class GameStateService {
 
     /**
      * Get the number of cells the given ship type should occupy.
-     * @param {ShipType} ship_type
+     * @param {string} ship_type
      * @return {number}
      */
     get_ship_length(ship_type) {
@@ -583,8 +582,8 @@ export class GameStateService {
 
     /**
      * Get the coordinates of all cells that have ships in them, for the given player.
-     * @param {Player} player
-     * @return {[number, number]}
+     * @param {string} player
+     * @return {number[]}
      */
     get_ship_cells(player) {
         const cells = []
@@ -601,7 +600,7 @@ export class GameStateService {
     /**
      * If there is a winner, this will return the Player that won.
      * If no winner has been decided yet, will return undefined.
-     * @return {Player|undefined}
+     * @return {string|undefined}
      */
     get_winner() {
         const [player_1, player_2] = this.players
@@ -627,8 +626,8 @@ export class GameStateService {
 
     /**
      * Returns the other player.
-     * @param {Player} player
-     * @return {Player}
+     * @param {string} player
+     * @return {string}
      */
     get_other_player(player) {
         if ( player === Player.One ) return Player.Two
@@ -637,7 +636,7 @@ export class GameStateService {
 
     /**
      * Given a Player type, return the display value of that player.
-     * @param {Player} player
+     * @param {string} player
      * @return {string}
      */
     get_player_display(player) {
@@ -647,7 +646,7 @@ export class GameStateService {
 
     /**
      * Get an array of ship entities for the given player.
-     * @param {Player} player
+     * @param {string} player
      * @return {object[]}
      */
     get_ship_entities(player) {
@@ -672,10 +671,10 @@ export class GameStateService {
     /**
      * Set the state of the cell at the given coordinates on the player's board
      * to the specified state.
-     * @param {Player} player
+     * @param {string} player
      * @param {number} row_i
      * @param {number} col_i
-     * @param {GridCellState} state
+     * @param {string} state
      * @private
      */
     _set_cell_state(player, row_i, col_i, state) {
@@ -684,7 +683,7 @@ export class GameStateService {
 
     /**
      * Get the state of the cell at the given coordinates on the player's board.
-     * @param {Player} player
+     * @param {string} player
      * @param {number} row_i
      * @param {number} col_i
      * @return {object}
