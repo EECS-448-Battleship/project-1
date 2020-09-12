@@ -133,6 +133,12 @@ class TopLevelComponent extends Component {
     player_is_firing_missiles = false
 
     /**
+     * True if there is a missile fire in progressm
+     * @type {boolean}
+     */
+    fire_in_progress = false
+
+    /**
      * If in placement mode, the ships that are yet to be placed.
      * @type {ShipType[]}
      */
@@ -207,17 +213,20 @@ class TopLevelComponent extends Component {
      * @param {number} column_index
      */
     async on_missile_fired([row_index, column_index]) {
-        if ( this.player_is_firing_missiles ) {
-            await GameSounds.Fire.play()
-            const success = game_service.attempt_missile_fire([row_index, column_index])
+        if ( this.player_is_firing_missiles && !this.fire_in_progress ) {
+            this.player_is_firing_missiles = false
+            this.fire_in_progress = true
 
-            if ( success ) await GameSounds.Hit.play()
-            else await GameSounds.Miss.play()
+            this.$nextTick(async () => {
+                await GameSounds.Fire.play()
+                const success = game_service.attempt_missile_fire([row_index, column_index])
 
-            // Give the user time to see whether they hit or not
-            setTimeout(() => {
+                if ( success ) await GameSounds.Hit.play()
+                else await GameSounds.Miss.play()
+
                 game_service.advance_game_state()
-            }, 2000)
+                this.fire_in_progress = false
+            })
         }
     }
 
