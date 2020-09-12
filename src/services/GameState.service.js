@@ -394,8 +394,10 @@ export class GameStateService {
         }
 
         const target_cell = this._get_cell_state(this.current_opponent, target_row_i, target_col_i)
-        if ( !isValidTargetCell(target_cell.render) )
+        if ( !isValidTargetCell(target_cell.render) ) {
+            this.current_turn_had_missile_attempt = false
             throw new InvalidMissileFireAttemptError('Cannot fire on cell with state: ' + target_cell.render)
+        }
 
         if ( target_cell.render === GridCellState.Ship ) {
             // We hit an un-hit ship cell!
