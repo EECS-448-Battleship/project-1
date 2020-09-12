@@ -220,7 +220,7 @@ export class GameStateService {
      */
     get_player_score(player) {
         let score = 0
-        this.player_x_game_board[player].some(row => {
+        this.player_x_game_board[this.get_other_player(player)].some(row => {
             row.some(cell => {
                 if ( cell.render === GridCellState.Damaged || cell.render === GridCellState.Sunk ) {
                     score += 1
@@ -239,7 +239,7 @@ export class GameStateService {
      */
     get_boat_count(player){
         let boat_count = 0
-        this.player_x_game_board[player].some(row => {
+        this.player_x_game_board[this.get_other_player(player)].some(row => {
             row.some(cell => {
                 if ( isShipCell(cell.render) ) {
                     boat_count += 1
@@ -621,7 +621,7 @@ export class GameStateService {
             (player_2_ship_cells.length > 0)
             && player_2_ship_cells.every(cell => this._get_cell_state(player_2, cell[0], cell[1]).render === GridCellState.Sunk)
         )
-        if ( player_2_loses ) return player_2
+        if ( player_2_loses ) return player_1
     }
 
     /**
