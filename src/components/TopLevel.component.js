@@ -32,7 +32,11 @@ const template = `
         >
             <!-- Opponent's board -->
             <div class="game-board">
-                <app-game-board v-bind:rows="opponent_rows"></app-game-board>
+                <app-game-board
+                    v-bind:rows="opponent_rows"
+                    v-bind:is_missile_mode="player_is_firing_missiles"
+                    @missilefired="on_missile_fired"
+                ></app-game-board>
                 <div class="fleet-label">Opposing fleet</div>
             </div>
     
@@ -95,12 +99,27 @@ export default class TopLevelComponent extends Component {
     player_is_placing_ships = false
 
     /**
+     * True if the player should be able to fire missiles at their opponent.
+     * @type {boolean}
+     */
+    player_is_firing_missiles = false
+
+    /**
      * If in placement mode, the ships that are yet to be placed.
      * @type {ShipType[]}
      */
     ships_to_place = []
 
+    /**
+     * The display name of the current player.
+     * @type {string}
+     */
     current_player_display = ''
+
+    /**
+     * The display name of the current opponent.
+     * @type {string}
+     */
     current_opponent_display = ''
 
     async vue_on_create() {
@@ -116,6 +135,7 @@ export default class TopLevelComponent extends Component {
             this.current_opponent_display = game_service.get_player_display(game_service.get_current_opponent())
 
             this.player_is_placing_ships = next_state === GameState.PlayerSetup
+            this.player_is_firing_missiles = next_state === GameState.PlayerTurn
             if ( !was_refresh && this.player_is_placing_ships ) {
                 this.ships_to_place = game_service.get_possible_boats()
             }
@@ -144,6 +164,23 @@ export default class TopLevelComponent extends Component {
         }
     }
 
+    /**
+     * Called when the player attempts to fire a missile.
+     * @param {number} row_index
+     * @param {number} column_index
+     */
+    on_missile_fired([row_index, column_index]) {
+        game_service.attempt_missile_fire([row_index, column_index])
+
+        // Give the user time to see whether they hit or not
+        setTimeout(() => {
+            game_service.advance_game_state()
+        }, 5000)
+    }
+
+    /**
+     * Called when the player has confirmed the player change.
+     */
     confirm_player_change() {
         game_service.advance_game_state()
     }
