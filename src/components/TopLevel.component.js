@@ -24,10 +24,12 @@ const template = `
             v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange && instructions"
             class="instructions"
         >
-            {{ instructions }}
+            {{ instructions.replace('{player}', current_player_display) }}
         </div>
         <div
-            v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange"
+            v-if="current_state !== GameState.ChoosingNumberOfShips
+                    && current_state !== GameState.PromptPlayerChange
+                    && current_state !== GameState.PlayerVictory"
             class="game-boards-container"
         >
             <!-- Opponent's board -->
@@ -49,6 +51,26 @@ const template = `
                     @shipplaced="on_ship_placed"
                 ></app-game-board>
                 <div class="fleet-label">Your fleet</div>
+            </div>
+        </div>
+        <div
+            v-if="current_state === GameState.PlayerVictory"
+            class="game-boards-container"
+        >
+            <!-- Winner's board -->
+            <div class="game-board">
+                <app-game-board
+                    v-bind:rows="player_rows"
+                ></app-game-board>
+                <div class="fleet-label">{{ current_player_display }}'s fleet (winner)</div>
+            </div>
+    
+            <!-- Loser's board -->
+            <div class="game-board">
+                <app-game-board
+                    v-bind:rows="opponent_rows"
+                ></app-game-board>
+                <div class="fleet-label">{{ current_opponent_display }}'s fleet</div>
             </div>
         </div>
     </div>
@@ -140,6 +162,12 @@ export default class TopLevelComponent extends Component {
                 this.ships_to_place = game_service.get_possible_boats()
             }
 
+            if ( next_state === GameState.PlayerVictory ) {
+                const [victor_state, loser_state] = game_service.get_player_victory_state()
+                this.player_rows = victor_state
+                this.opponent_rows = loser_state
+            }
+
             this.instructions = instructions[this.current_state]
         })
     }
@@ -170,12 +198,14 @@ export default class TopLevelComponent extends Component {
      * @param {number} column_index
      */
     on_missile_fired([row_index, column_index]) {
-        game_service.attempt_missile_fire([row_index, column_index])
+        if ( this.player_is_firing_missiles ) {
+            game_service.attempt_missile_fire([row_index, column_index])
 
-        // Give the user time to see whether they hit or not
-        setTimeout(() => {
-            game_service.advance_game_state()
-        }, 5000)
+            // Give the user time to see whether they hit or not
+            setTimeout(() => {
+                game_service.advance_game_state()
+            }, 2000)
+        }
     }
 
     /**

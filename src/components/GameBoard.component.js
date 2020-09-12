@@ -113,8 +113,9 @@ export default class GameBoardComponent extends Component {
 
                 game_service.place_ship(this.ships_to_place[0], coord_one, coord_two)
                 this.$emit('shipplaced')
-                this.$emit('missilefired',[row_i ,cell_i])
             }
+        } else if ( this.is_missile_mode ) {
+            this.$emit('missilefired', [row_i, cell_i])
         }
     }
 

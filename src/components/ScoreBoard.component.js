@@ -1,6 +1,6 @@
 import {Component} from '../../lib/vues6.js'
 import game_service from '../services/GameState.service.js'
-import {Player} from '../module/util.js'
+import {Player, GameState} from '../module/util.js'
 
 const template = `
 <div class="app-scoreboard-component">
@@ -15,14 +15,14 @@ const template = `
             <td class="scoreboard_data">progress</td>
         </tr>
         <tr class="scoreboard_rows_score&progress">
-            <td class="scoreboard_player">player_1</td>
+            <td class="scoreboard_player">{{ current_player === Player.One ? '➜ ' : '' }}Player 1{{ winning_player === Player.One ? ' ★' : '' }}</td>
             <td class="scoreboard_data">{{player_one_score}}</td>
-            <td class="scoreboard_data">{{player_one_progress}}</td>
+            <td class="scoreboard_data">{{player_one_progress * 100}}%</td>
         </tr>
         <tr class="scoreboard_lastRow">
-            <td class="scoreboard_player">player_2</td>
-            <td class="scoreboard_data">{{player_one_score}}</td>
-            <td class="scoreboard_data">{{player_two_progress}}</td>
+            <td class="scoreboard_player">{{ current_player === Player.Two ? '➜ ' : '' }}Player 2{{ winning_player === Player.Two ? ' ★' : '' }}</td>
+            <td class="scoreboard_data">{{player_two_score}}</td>
+            <td class="scoreboard_data">{{player_two_progress * 100}}%</td>
         </tr>
     </table>
 </div>
@@ -36,6 +36,10 @@ export default class ScoreBoardComponent extends Component {
     player_two_score = 0
     player_one_progress = 0
     player_two_progress = 0
+    current_player = undefined
+    winning_player = undefined
+
+    Player = Player
 
     async vue_on_create() {
         game_service.on_state_change(() => {
@@ -51,5 +55,12 @@ export default class ScoreBoardComponent extends Component {
         this.player_two_score = game_service.get_player_score(Player.Two)
         this.player_one_progress = game_service.get_progress(Player.One)
         this.player_two_progress = game_service.get_progress(Player.Two)
+
+        if ( game_service.get_game_state() !== GameState.PlayerVictory )
+            this.current_player = game_service.get_current_player()
+        else {
+            this.current_player = undefined
+            this.winning_player = game_service.get_current_player()
+        }
     }
 }

@@ -1,3 +1,21 @@
+#wrapper {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-level-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Styles for top-level component */
 .top-level-component .game-boards-container {
     display: flex;
@@ -96,6 +114,7 @@ p {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    flex: 1;
 }
 
 .top-level-component .instructions {
