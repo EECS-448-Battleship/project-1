@@ -272,7 +272,6 @@ export class GameStateService {
      * responsible for advancing the game state
      * will be consisting of
      * @return
-     * @private
      */
     advance_game_state() {
         /** functions to be made that validate:
@@ -284,7 +283,6 @@ export class GameStateService {
          * 6) player 2 turn
          * 7) advance to player one
          * 8) player win
-         *
          */
         if (this.current_state === GameState.ChoosingNumberOfShips) {
             if (this.n_boats >= 1 && this.n_boats <= 5) {
@@ -400,12 +398,14 @@ export class GameStateService {
 
             // set ships to sunk where appropriate
             this._sink_damaged_ships(this.current_opponent)
+            this._trigger_view_update()
             return true
         } else if ( target_cell.render === GridCellState.Available ) {
             // We missed...
             this._set_cell_state(this.current_opponent, target_row_i, target_col_i, GridCellState.Missed)
         }
 
+        this._trigger_view_update()
         return false
     }
 
