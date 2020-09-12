@@ -68,23 +68,29 @@ export class GameStateService {
         }
     }
 
+    /**
+     * Given the number of boats set by the player (n_boats), return an array
+     * of possible ShipTypes.
+     * @return {ShipType[]}
+     */
     get_possible_boats(){
-      if (this.get_n_boats() === 1) {
-          return [ShipType.x1]
-      }
-      else if (this.get_n_boats() === 2) {
-          return [ShipType.x1, ShipType.x2]
-      }
-      else if (this.get_n_boats() === 3) {
-          return [ShipType.x1, ShipType.x2, ShipType.x3]
-      }
-      else if (this.get_n_boats() === 4) {
-          return [ShipType.x1, ShipType.x2, ShipType.x3, ShipType.x4]
-      }
-      else if (this.get_n_boats() === 5) {
-          return [ShipType.x1, ShipType.x2, ShipType.x3, ShipType.x4, ShipType.x5]
-      }
+        if (this.get_n_boats() === 1) {
+            return [ShipType.x1]
+        }
+        else if (this.get_n_boats() === 2) {
+            return [ShipType.x1, ShipType.x2]
+        }
+        else if (this.get_n_boats() === 3) {
+            return [ShipType.x1, ShipType.x2, ShipType.x3]
+        }
+        else if (this.get_n_boats() === 4) {
+            return [ShipType.x1, ShipType.x2, ShipType.x3, ShipType.x4]
+        }
+        else if (this.get_n_boats() === 5) {
+            return [ShipType.x1, ShipType.x2, ShipType.x3, ShipType.x4, ShipType.x5]
+        }
     }
+
     /**
      * The current state of the game.
      * @private
@@ -105,6 +111,13 @@ export class GameStateService {
      * @type {string}
      */
     current_opponent = Player.Two
+
+    /**
+     * If the current state is the PromptPlayerChange, then this is
+     * the state that we should move to next.
+     * @type {undefined|GameState}
+     */
+    post_player_change_state = undefined
 
     /**
      * True if, during the current turn, the user has tried to fire a missile.
@@ -275,7 +288,8 @@ export class GameStateService {
          */
         if (this.current_state === GameState.ChoosingNumberOfShips) {
             if (this.n_boats >= 1 && this.n_boats <= 5) {
-                this.current_state = GameState.PlayerSetup;
+                this.current_state = GameState.PromptPlayerChange;
+                this.post_player_change_state = GameState.PlayerSetup;
                 this.current_player = Player.One;
                 this.current_opponent = Player.Two;
             } else {
@@ -287,6 +301,8 @@ export class GameStateService {
                 // because the place_ship handles all the validation
                 // all you need to do is make sure they have placed all the appropriate ships
                 if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
+                    this.current_state = GameState.PromptPlayerChange;
+                    this.post_player_change_state = GameState.PlayerSetup;
                     this.current_player = Player.Two;
                     this.current_opponent = Player.One;
                 }
@@ -296,7 +312,8 @@ export class GameStateService {
             }
             else if (this.current_player === Player.Two) {
                 if ( this.get_ship_entities(this.current_player).length === this.n_boats ) {
-                    this.current_state = GameState.PlayerTurn;
+                    this.current_state = GameState.PromptPlayerChange;
+                    this.post_player_change_state = GameState.PlayerTurn;
                     this.current_player = Player.One;
                     this.current_opponent = Player.Two;
                 }
@@ -307,6 +324,8 @@ export class GameStateService {
         }
         else if (this.current_state === GameState.PlayerTurn && this.current_player === Player.One) {
             if (this.current_turn_had_missile_attempt === true) {
+                this.current_state = GameState.PromptPlayerChange;
+                this.post_player_change_state = GameState.PlayerTurn;
                 this.current_player = Player.Two;
                 this.current_opponent = Player.One;
             }
@@ -316,12 +335,22 @@ export class GameStateService {
         }
         else if (this.current_state === GameState.PlayerTurn && this.current_player === Player.Two) {
             if (this.current_turn_had_missile_attempt === true) {
+                this.current_state = GameState.PromptPlayerChange;
+                this.post_player_change_state = GameState.PlayerTurn;
                 this.current_player = Player.One;
                 this.current_opponent = Player.Two;
             }
             else {
                 throw new InvalidAdvanceStateError("the player has not fired a missle");
             }
+        }
+        else if ( this.current_state === GameState.PromptPlayerChange ) {
+            if ( !this.post_player_change_state ) {
+                throw new InvalidAdvanceStateError('No state to advance to after player change!')
+            }
+
+            this.current_state = this.post_player_change_state
+            this.post_player_change_state = undefined
         }
 
         let winner = this.get_winner();
@@ -597,6 +626,16 @@ export class GameStateService {
     get_other_player(player) {
         if ( player === Player.One ) return Player.Two
         else if ( player === Player.Two ) return Player.One
+    }
+
+    /**
+     * Given a Player type, return the display value of that player.
+     * @param {Player} player
+     * @return {string}
+     */
+    get_player_display(player) {
+        if ( player === Player.One ) return 'Player 1'
+        else if ( player === Player.Two ) return 'Player 2'
     }
 
     /**
