@@ -4,7 +4,7 @@ import {Player, GameState} from '../module/util.js'
 
 const template = `
 <div class="app-scoreboard-component">
-        <table class="scoreboard_table" style="width:50%">
+    <table class="scoreboard_table" style="width:50%">
         <tr class="scoreboard_rows">
             <th class="scoreboard_table_empty"></th>
             <th class="scoreboard_table_header" colspan="3">scoreboard</th>
