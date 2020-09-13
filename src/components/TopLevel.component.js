@@ -9,17 +9,47 @@ const template = `
     <div class="top-level-component">
         <div v-if="current_state === GameState.ChoosingNumberOfShips" class="game-choose-ships-container">
             <span v-if="instructions">{{ instructions }}</span>
-            <div style="margin-top: 30px;">
-                <button @click="ship(1)" class="shipBtn">1 ship</button>
-                <button @click="ship(2)" class="shipBtn">2 ships</button>
-                <button @click="ship(3)" class="shipBtn">3 ships</button>
-                <button @click="ship(4)" class="shipBtn">4 ships</button>
-                <button @click="ship(5)" class="shipBtn">5 ships</button>
+            <div class="btn_container">
+<!--                <button @click="ship(1)" class="btn btn1">1 ship</button>
+                <button @click="ship(2)" class="btn btn2">2 ships</button>
+                <button @click="ship(3)" class="btn btn3">3 ships</button>
+                <button @click="ship(4)" class="btn btn4">4 ships</button>
+                <button @click="ship(5)" class="buttonTest">5 ships</button>-->
+                <div class="buttonTest" id="buttonOption2">
+                    <button @click="ship(1)" id="dub-arrow"><img src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-arrow-48-240.png?raw=true" alt="" />
+                    </button>
+                    <a href="#"> 1 ship</a>
+                </div>
+                <div class="buttonTest" id="buttonOption2">
+                    <button @click="ship(2)" id="dub-arrow"><img src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-arrow-48-240.png?raw=true" alt="" />
+                    </button>
+                    <a href="#"> 2 ships</a>
+                </div>
+                <div class="buttonTest" id="buttonOption2">
+                    <button @click="ship(3)" id="dub-arrow"><img src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-arrow-48-240.png?raw=true" alt="" />
+                    </button>
+                    <a href="#"> 3 ships</a>
+                </div>
+                <div class="buttonTest" id="buttonOption2">
+                    <button @click="ship(4)" id="dub-arrow"><img src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-arrow-48-240.png?raw=true" alt="" />
+                    </button>
+                    <a href="#"> 4 ships</a>
+                </div>
+                <div class="buttonTest" id="buttonOption2">
+                    <button @click="ship(5)" id="dub-arrow"><img src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-arrow-48-240.png?raw=true" alt="" />
+                    </button>
+                    <a href="#"> 5 ships</a>
+                </div>
             </div>
         </div>
         <div v-if="current_state === GameState.PromptPlayerChange" class="game-player-change-container">
-            It is now {{ current_player_display }}'s turn!
-            <button @click="confirm_player_change" class="playerBtn">Continue</button>
+            it is now {{ current_player_display }}'s turn!
+<!--            <button @click="confirm_player_change" class="playerBtn">continue</button>-->
+            <div class="buttonTest" id="buttonOption2">
+                    <button @click="confirm_player_change" id="dub-arrow"><img src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-arrow-48-240.png?raw=true" alt="" />
+                    </button>
+                    <a href="#">continue</a>
+            </div>
         </div>
         <div
             v-if="current_state !== GameState.ChoosingNumberOfShips && current_state !== GameState.PromptPlayerChange && instructions"

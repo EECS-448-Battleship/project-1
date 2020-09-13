@@ -6,23 +6,22 @@ const template = `
 <div class="app-scoreboard-component">
     <table class="scoreboard_table" style="width:50%">
         <tr class="scoreboard_rows">
-            <th class="scoreboard_table_empty"></th>
-            <th class="scoreboard_table_header" colspan="3">scoreboard</th>
+            <th class="scoreboard_table_header" colspan="3">scoreboard</th>            
         </tr>
-        <tr class="scoreboard_header_scoreProgress">
-            <th class="scoreboard_table_empty"></th>
+        <tr class="scoreboard_header_playerScoreProgress">
+            <td class="scoreboard_data">player</td>
             <td class="scoreboard_data">score</td>
             <td class="scoreboard_data">progress</td>
         </tr>
         <tr class="scoreboard_rows_score&progress">
-            <td class="scoreboard_player">{{ current_player === Player.One ? '➜ ' : '' }}Player 1{{ winning_player === Player.One ? ' ★' : '' }}</td>
-            <td class="scoreboard_data">{{player_one_score}}</td>
-            <td class="scoreboard_data">{{player_one_progress * 100}}%</td>
+            <td class="scoreboard_player">{{ current_player === Player.One ? '➜ ' : '' }}player_1{{ winning_player === Player.One ? ' ★' : '' }}</td>
+            <td class="scoreboard_data_value">{{player_one_score}}</td>
+            <td class="scoreboard_data_value">{{player_one_progress * 100}}%</td>
         </tr>
         <tr class="scoreboard_lastRow">
-            <td class="scoreboard_player">{{ current_player === Player.Two ? '➜ ' : '' }}Player 2{{ winning_player === Player.Two ? ' ★' : '' }}</td>
-            <td class="scoreboard_data">{{player_two_score}}</td>
-            <td class="scoreboard_data">{{player_two_progress * 100}}%</td>
+            <td class="scoreboard_player">{{ current_player === Player.Two ? '➜ ' : '' }}player_2{{ winning_player === Player.Two ? ' ★' : '' }}</td>
+            <td class="scoreboard_data_value">{{player_two_score}}</td>
+            <td class="scoreboard_data_value">{{player_two_progress * 100}}%</td>
         </tr>
     </table>
 </div>
