@@ -17,7 +17,9 @@
 
 .header_title {
     text-align: center;
-    letter-spacing: 0.1em
+    letter-spacing: 0.1em;
+    color: #ec8d2e;
+    font-family:'Roboto',sans-serif;
 }
 
 .top-level-container {
@@ -49,7 +51,7 @@
     margin-top: 100px;
     padding:0;
     text-align: center;
-    font-family: 'Roboto Thin', sans-serif;
+    font-family: 'Roboto', sans-serif;
     overflow: hidden;
     border-radius: 15px 15px 15px 15px;
     box-shadow: 0 0 20px rgba(5, 5, 5, 5);
@@ -287,12 +289,11 @@ a {
 }
 
 h1 {
-
     text-align:center;
 }
 
 p {
-    text-align: center;  
+    text-align: center;
 }
 
 .top-level-component {
