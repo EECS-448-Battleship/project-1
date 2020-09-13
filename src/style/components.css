@@ -400,3 +400,77 @@ p {
     text-align: center;
     margin: 20px;
 }
+
+/********** HR LINES************
+********************************/
+
+.separator {
+    border: 0;
+}
+
+.separator--line {
+    border: 0;
+    border-bottom: 5px solid #ec8d2e;
+    width: 0;
+    -webkit-animation: separator-width 1s ease-out forwards;
+    animation: separator-width 1s ease-out forwards;
+}
+
+@-webkit-keyframes separator-width {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes separator-width {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@-webkit-keyframes dot-move-right {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: 32px;
+    }
+}
+
+@keyframes dot-move-right {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: 32px;
+    }
+}
+@-webkit-keyframes dot-move-left {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: -32px;
+    }
+}
+@keyframes dot-move-left {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: -32px;
+    }
+}
+.separator--dotter {
+    border: 0;
+    border-bottom: 5px dotted #ec8d2e;
+    width: 0;
+    -webkit-animation: separator-width 1.5s ease-out forwards;
+    animation: separator-width 1.5s ease-out forwards;
+}
