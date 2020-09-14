@@ -83,6 +83,9 @@ const template = `
                 ></app-game-board>
                 <div class="fleet-label">Your fleet</div>
             </div>
+            <div class="scoreboard-container">
+            <app-scoreboard></app-scoreboard>
+        </div>
         </div>
         <div
             v-if="current_state === GameState.PlayerVictory"
@@ -105,9 +108,7 @@ const template = `
             </div>
         </div>
     </div>
-    <div class="scoreboard-container">
-        <app-scoreboard></app-scoreboard>
-    </div>
+
 </div>
 `
 
