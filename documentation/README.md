@@ -42,7 +42,7 @@ The files in the `lib/` are external libraries used in this project.
     - Also used under the terms of the MIT license.
     - https://code.garrettmills.dev/garrettmills/vues6
 - Sound effects obtained from https://www.zapsplat.com and used with permission.
-- Button animations obtained from https://codepen.io/atloomer and used with permission.
+- Button animations obtained from https://codepen.io/atloomer and https://www.youtube.com/watch?v=MLfAW55_4cY , and used with permission.
 - HR line animations obtained from https://codepen.io/Grienauer and used with permission.
 
 ## Contributors

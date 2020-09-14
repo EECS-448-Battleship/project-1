@@ -480,16 +480,5 @@ p {
 ***************************************/
 
 .instructions {
-    animation: type 2s steps(22);
-    overflow: hidden;
-    white-space: nowrap;
-    width: 60ch;
-    font-family: Consolas, Monaco, 'Andale Mono', monospace;
-    font-size: 1.5em;
-}
-
-@keyframes type {
-    0% {
-        width: 0ch;
-    }
+    font-size: 1.3em;
 }
