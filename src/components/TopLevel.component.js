@@ -8,7 +8,7 @@ const template = `
 <div class="top-level-container">
     <div class="top-level-component">
         <div v-if="current_state === GameState.ChoosingNumberOfShips" class="game-choose-ships-container">
-            <span v-if="instructions">{{ instructions }}</span>
+            <span v-if="instructions"><h1 class="instructions">{{ instructions }}</h1></span>
             <div class="btn_container">
 <!--                <button @click="ship(1)" class="btn btn1">1 ship</button>
                 <button @click="ship(2)" class="btn btn2">2 ships</button>

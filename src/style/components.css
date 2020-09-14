@@ -10,7 +10,7 @@
     flex-direction: column;
     background-color: #182025;
     color: #ec8d2e;
-    font-family: 'Roboto Thin', sans-serif;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
     font-weight: bold;
     letter-spacing: 0.08em;
 }
@@ -19,7 +19,7 @@
     text-align: center;
     letter-spacing: 0.1em;
     color: #ec8d2e;
-    font-family:'Roboto',sans-serif;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
 }
 
 .top-level-container {
@@ -51,7 +51,7 @@
     margin-top: 100px;
     padding:0;
     text-align: center;
-    font-family: 'Roboto', sans-serif;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
     overflow: hidden;
     border-radius: 15px 15px 15px 15px;
     box-shadow: 0 0 20px rgba(5, 5, 5, 5);
@@ -120,6 +120,7 @@
 
 .github {
     color: #204a61;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
 }
 
 .github:hover {
@@ -473,4 +474,22 @@ p {
     width: 0;
     -webkit-animation: separator-width 1.5s ease-out forwards;
     animation: separator-width 1.5s ease-out forwards;
+}
+
+/********** END OF HR LINES************
+***************************************/
+
+.instructions {
+    animation: type 2s steps(22);
+    overflow: hidden;
+    white-space: nowrap;
+    width: 60ch;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    font-size: 1.5em;
+}
+
+@keyframes type {
+    0% {
+        width: 0ch;
+    }
 }
